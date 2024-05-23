@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build and Deploy
 
 on:
   pull_request:
@@ -11,6 +11,7 @@ on:
 
 jobs:
   build-and-test:
+    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
