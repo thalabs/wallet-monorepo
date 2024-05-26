@@ -22,6 +22,7 @@
 		"prettier": "^3.2.5",
 		"recommended": "link:eslint-plugin-package-json/configs/recommended",
 		"recommended-natural": "link:eslint-plugin-perfectionist/configs/recommended-natural",
+		"tsup": "^8.0.2",
 		"typescript": "^5.4.5",
 		"typescript-eslint": "^7.10.0",
 		"vitest": "^1.6.0"
@@ -63,6 +64,13 @@
 	"type": "module",
 	"dependencies": {
 		"@trpc/client": "11.0.0-rc.377",
-		"@trpc/server": "11.0.0-rc.377"
+		"@trpc/server": "11.0.0-rc.377",
+		"@types/cors": "^2.8.17",
+		"@types/express": "^4.17.21",
+		"@types/express-serve-static-core": "^4.19.1",
+		"@types/qs": "^6.9.15",
+		"cors": "^2.8.5",
+		"express": "^4.19.2",
+		"zod": "^3.23.8"
 	}
 }
