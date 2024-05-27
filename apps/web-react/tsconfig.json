@@ -1,3 +1,4 @@
 {
-  "extends": "tsconfig/react_lib.json"
+  "extends": "@repo/tsconfig/react_lib.json",
+  "include": ["src"]
 }
