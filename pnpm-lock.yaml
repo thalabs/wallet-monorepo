@@ -139,12 +139,17 @@ importers:
       eslint-plugin-react-refresh:
         specifier: ^0.4.6
         version: 0.4.7(eslint@8.57.0)
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
       typescript:
         specifier: ^5.2.2
         version: 5.3.3
       vite:
         specifier: ^5.2.0
         version: 5.2.11(@types/node@20.11.24)
+
+  packages/tsconfig: {}
 
 packages:
 
