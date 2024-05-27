@@ -44,7 +44,7 @@ export default tseslint.config(
 		languageOptions: {
 			parserOptions: {
 				EXPERIMENTAL_useProjectService: {
-					allowDefaultProjectForFiles: ["./*.*s", "eslint.config.js"],
+					allowDefaultProjectForFiles: ["./*.*s", "eslint.config.cjs"],
 					defaultProject: "./tsconfig.json",
 				},
 			},
