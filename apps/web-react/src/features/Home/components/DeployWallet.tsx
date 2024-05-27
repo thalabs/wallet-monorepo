@@ -172,6 +172,22 @@ export default function DeployWallet() {
       functionArgs: [contractPrincipalCV(userAddress, "scw-sip-010"), trueCV()],
     });
   }, []);
+
+  const enableWSTX = useCallback(async () => {
+    await doContractCall({
+      contractAddress: userAddress,
+      contractName: "scw-sip-010",
+      functionName: "set-token-wl",
+      network,
+      functionArgs: [
+        contractPrincipalCV(
+          "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+          "wstx",
+        ),
+        trueCV(),
+      ],
+    });
+  }, []);
   return (
     <div>
       <h2>Deploy Wallet</h2>
@@ -179,6 +195,9 @@ export default function DeployWallet() {
 
       <h2>Enable Sip-010 Extension</h2>
       <button onClick={enableSip010}>Enable</button>
+
+      <h2>Enable WSTX Token</h2>
+      <button onClick={enableWSTX}>Enable</button>
     </div>
   );
 }

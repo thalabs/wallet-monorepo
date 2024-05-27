@@ -4,6 +4,7 @@ import { userSession } from "../../stacks/auth";
 import Balances from "./components/Balances";
 import DeployWallet from "./components/DeployWallet";
 import FundWallet from "./components/FundWallet";
+import TransferTokens from "./components/Transfer";
 
 export default function Home() {
   const { doOpenAuth } = useConnect();
@@ -22,6 +23,7 @@ export default function Home() {
       <Balances address={`${userAddress}.scw-sip-010`} />
       <DeployWallet />
       <FundWallet address={`${userAddress}.scw-sip-010`} />
+      <TransferTokens address={`${userAddress}.scw-sip-010`} />
     </div>
   );
 }
