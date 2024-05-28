@@ -9,14 +9,14 @@ const app = express();
 app.use(cors());
 
 app.use(
-  "/trpc/",
-  trpcExpress.createExpressMiddleware({
-    batching: {
-      enabled: false,
-    },
-    createContext,
-    router: appRouter
-  })
+	"/trpc/",
+	trpcExpress.createExpressMiddleware({
+		batching: {
+			enabled: false,
+		},
+		createContext,
+		router: appRouter,
+	}),
 );
 
 app.listen(4000);

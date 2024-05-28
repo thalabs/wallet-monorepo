@@ -1,54 +1,19 @@
 {
-	"author": {
-		"name": "thalabs"
-	},
-	"dependencies": {
-		"@trpc/client": "11.0.0-rc.377",
-		"@trpc/server": "11.0.0-rc.377",
-		"@types/cors": "^2.8.17",
-		"@types/express": "^4.17.21",
-		"@types/express-serve-static-core": "^4.19.1",
-		"@types/qs": "^6.9.15",
-		"cors": "^2.8.5",
-		"express": "^4.19.2",
-		"zod": "^3.23.8"
-	},
 	"description": "The backend for sc wallet operations",
-	"devDependencies": {
-		"@repo/eslint-config": "workspace:*",
-		"cspell": "^8.8.3",
-		"husky": "^9.0.11",
-		"knip": "^5.16.0",
-		"markdownlint": "^0.34.0",
-		"prettier": "^3.2.5",
-		"tsup": "^8.0.2",
-		"typescript": "^5.4.5",
-		"vitest": "^1.6.0"
+	"name": "@thalabs/sc-wallet-server-trpc",
+	"version": "0.0.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/thalabs/server-trpc"
 	},
-	"engines": {
-		"node": ">=18"
-	},
+	"license": "MIT",
+	"main": "./lib/index.js",
 	"files": [
 		"lib/",
 		"package.json",
 		"LICENSE.md",
 		"README.md"
 	],
-	"ignorePatterns": ["node_modules/", "dist/"],
-	"license": "MIT",
-	"lint-staged": {
-		"*": "prettier --ignore-unknown --write"
-	},
-	"main": "./lib/index.js",
-	"name": "@thalabs/sc-wallet-server-trpc",
-	"version": "0.0.0",
-	"publishConfig": {
-		"provenance": true
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/thalabs/server-trpc"
-	},
 	"scripts": {
 		"build": "tsup",
 		"format": "prettier .",
@@ -61,5 +26,42 @@
 		"prepare": "husky",
 		"test": "vitest",
 		"tsc": "tsc"
+	},
+	"lint-staged": {
+		"*": "prettier --ignore-unknown --write"
+	},
+	"dependencies": {
+		"@trpc/client": "11.0.0-rc.377",
+		"@trpc/server": "11.0.0-rc.377",
+		"@types/cors": "^2.8.17",
+		"@types/express": "^4.17.21",
+		"@types/express-serve-static-core": "^4.19.1",
+		"@types/qs": "^6.9.15",
+		"cors": "^2.8.5",
+		"express": "^4.19.2",
+		"zod": "^3.23.8"
+	},
+	"devDependencies": {
+		"@repo/eslint-config": "workspace:*",
+		"cspell": "^8.8.3",
+		"eslint-plugin-yml": "^1.14.0",
+		"husky": "^9.0.11",
+		"knip": "^5.16.0",
+		"markdownlint": "^0.34.0",
+		"prettier": "^3.2.5",
+		"prettier-plugin-curly": "^0.2.1",
+		"tsup": "^8.0.2",
+		"typescript": "^5.4.5",
+		"vitest": "^1.6.0"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"ignorePatterns": [
+		"node_modules/",
+		"dist/"
+	],
+	"publishConfig": {
+		"provenance": true
 	}
 }

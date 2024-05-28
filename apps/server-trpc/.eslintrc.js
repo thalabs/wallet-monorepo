@@ -2,21 +2,21 @@ module.exports = {
 	extends: [
 		"@repo/eslint-config/library",
 		"@repo/eslint-config/jsonc",
-		"@repo/eslint-config/yaml"
+		"@repo/eslint-config/yaml",
 	],
 	ignorePatterns: [
 		"coverage*",
 		"lib",
 		"node_modules",
 		"pnpm-lock.yaml",
-		"**/*.snap"
+		"**/*.snap",
 	],
 	overrides: [
 		{
 			files: ["**/*.md/*.ts"],
 			rules: {
-				"n/no-missing-import": ["error", { allowModules: ["server-trpc"] }]
-			}
+				"n/no-missing-import": ["error", { allowModules: ["server-trpc"] }],
+			},
 		},
 		{
 			files: ["**/*.test.*"],
@@ -25,9 +25,9 @@ module.exports = {
 			// },
 			rules: {
 				"@typescript-eslint/no-unsafe-assignment": "off",
-				"@typescript-eslint/no-unsafe-call": "off"
-			}
-		}
+				"@typescript-eslint/no-unsafe-call": "off",
+			},
+		},
 	],
 	root: true,
 	rules: {
@@ -35,7 +35,7 @@ module.exports = {
 		"logical-assignment-operators": [
 			"error",
 			"always",
-			{ enforceForIfStatements: true }
+			{ enforceForIfStatements: true },
 		],
 		"no-constant-condition": "off",
 		"no-useless-rename": "error",
@@ -46,10 +46,8 @@ module.exports = {
 			{
 				order: "asc",
 				"partition-by-comment": true,
-				type: "natural"
-			}
-		]
-	}
+				type: "natural",
+			},
+		],
+	},
 };
-
-
