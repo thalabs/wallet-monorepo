@@ -47,27 +47,15 @@
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
-		"@eslint-community/eslint-plugin-eslint-comments": "^4.3.0",
-		"@eslint/js": "^9.3.0",
-		"configs": "link:eslint-community/eslint-plugin-eslint-comments/configs",
 		"cspell": "^8.8.3",
-		"eslint": "^8.57.0",
-		"eslint-plugin-jsonc": "^2.16.0",
-		"eslint-plugin-markdown": "^5.0.0",
-		"eslint-plugin-n": "^17.7.0",
-		"eslint-plugin-regexp": "^2.6.0",
-		"eslint-plugin-vitest": "^0.5.4",
-		"eslint-plugin-yml": "^1.14.0",
 		"husky": "^9.0.11",
 		"knip": "^5.16.0",
 		"markdownlint": "^0.34.0",
 		"prettier": "^3.2.5",
-		"recommended": "link:eslint-plugin-package-json/configs/recommended",
-		"recommended-natural": "link:eslint-plugin-perfectionist/configs/recommended-natural",
 		"tsup": "^8.0.2",
 		"typescript": "^5.4.5",
-		"typescript-eslint": "^7.10.0",
-		"vitest": "^1.6.0"
+		"vitest": "^1.6.0",
+		"@repo/eslint-config": "workspace:*"
 	},
 	"lint-staged": {
 		"*": "prettier --ignore-unknown --write"
