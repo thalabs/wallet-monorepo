@@ -14,12 +14,13 @@ module.exports = {
 	extends: [
 		require.resolve("@vercel/style-guide/eslint/node"),
 		require.resolve("@vercel/style-guide/eslint/typescript"),
-		require.resolve("@vercel/style-guide/eslint/comments")
+		require.resolve("@vercel/style-guide/eslint/comments"),
+		"plugin:prettier/recommended"
 	],
 	parserOptions: {
 		project
 	},
-	plugins: ["only-warn", "perfectionist"],
+	plugins: ["prettier", "only-warn", "perfectionist"],
 	rules: {
 		"perfectionist/sort-objects": [
 			"error",
@@ -27,7 +28,8 @@ module.exports = {
 				type: "natural",
 				order: "asc"
 			}
-		]
+		],
+		"prettier/prettier": "error"
 	},
 	settings: {
 		"import/resolver": {

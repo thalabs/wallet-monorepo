@@ -1,7 +1,5 @@
 const { resolve } = require('node:path');
 
-const project = resolve(process.cwd(), 'tsconfig.json');
-
 /*
  * This is a custom ESLint configuration for use a library
  * that utilizes React.
