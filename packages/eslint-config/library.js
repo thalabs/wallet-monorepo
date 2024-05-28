@@ -1,4 +1,5 @@
 const { resolve } = require("node:path");
+
 const project = resolve(process.cwd(), "tsconfig.json");
 
 /*
@@ -11,32 +12,32 @@ const project = resolve(process.cwd(), "tsconfig.json");
  */
 
 module.exports = {
-	extends: [
-		require.resolve("@vercel/style-guide/eslint/node"),
-		require.resolve("@vercel/style-guide/eslint/typescript"),
-		require.resolve("@vercel/style-guide/eslint/comments"),
-		"plugin:prettier/recommended"
-	],
-	parserOptions: {
-		project
-	},
-	plugins: ["prettier", "only-warn", "perfectionist"],
-	rules: {
-		"perfectionist/sort-objects": [
-			"error",
-			{
-				type: "natural",
-				order: "asc"
-			}
-		],
-		"prettier/prettier": "error"
-	},
-	settings: {
-		"import/resolver": {
-			typescript: {
-				project
-			}
-		}
-	},
-	ignorePatterns: ["node_modules/", "dist/", "**/*.css"]
+  extends: [
+    require.resolve("@vercel/style-guide/eslint/node"),
+    require.resolve("@vercel/style-guide/eslint/typescript"),
+    require.resolve("@vercel/style-guide/eslint/comments"),
+    "plugin:prettier/recommended",
+  ],
+  ignorePatterns: ["node_modules/", "dist/", "**/*.css"],
+  parserOptions: {
+    project,
+  },
+  plugins: ["prettier", "only-warn", "perfectionist"],
+  rules: {
+    "perfectionist/sort-objects": [
+      "error",
+      {
+        order: "asc",
+        type: "natural",
+      },
+    ],
+    "prettier/prettier": "error",
+  },
+  settings: {
+    "import/resolver": {
+      typescript: {
+        project,
+      },
+    },
+  },
 };

@@ -1,5 +1,3 @@
-const { resolve } = require('node:path');
-
 /*
  * This is a custom ESLint configuration for use a library
  * that utilizes React.
@@ -11,13 +9,13 @@ const { resolve } = require('node:path');
 
 module.exports = {
   extends: [
-    './library.js',
-    '@vercel/style-guide/eslint/browser',
-    '@vercel/style-guide/eslint/react',
+    "./library.js",
+    "@vercel/style-guide/eslint/browser",
+    "@vercel/style-guide/eslint/react",
   ].map(require.resolve),
   globals: {
-    React: true,
     JSX: true,
+    React: true,
   },
 
   // add rules configurations here
