@@ -6,9 +6,9 @@ export default function FundWallet({ address }: { address: string }) {
   const { doSTXTransfer } = useConnect();
   const fundWallet = useCallback(() => {
     doSTXTransfer({
-      recipient: address,
       amount: "1000000000",
       network,
+      recipient: address,
     });
   }, [doSTXTransfer]);
   return (

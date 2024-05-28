@@ -1,7 +1,5 @@
 {
-	"dictionaries": [
-		"typescript"
-	],
+	"dictionaries": ["typescript"],
 	"ignorePaths": [
 		".github",
 		"CHANGELOG.md",
@@ -11,7 +9,5 @@
 		"pnpm-lock.yaml",
 		"package.json"
 	],
-	"words": [
-		"trpc"
-	]
+	"words": ["trpc"]
 }

@@ -1,58 +1,24 @@
 {
-	"version": "0.0.0",
-	"author": {
-		"name": "thalabs"
-	},
 	"description": "The backend for sc wallet operations",
-	"devDependencies": {
-		"@eslint-community/eslint-plugin-eslint-comments": "^4.3.0",
-		"@eslint/js": "^9.3.0",
-		"configs": "link:eslint-community/eslint-plugin-eslint-comments/configs",
-		"cspell": "^8.8.3",
-		"eslint": "^8.57.0",
-		"eslint-plugin-jsonc": "^2.16.0",
-		"eslint-plugin-markdown": "^5.0.0",
-		"eslint-plugin-n": "^17.7.0",
-		"eslint-plugin-regexp": "^2.6.0",
-		"eslint-plugin-vitest": "^0.5.4",
-		"eslint-plugin-yml": "^1.14.0",
-		"husky": "^9.0.11",
-		"knip": "^5.16.0",
-		"markdownlint": "^0.34.0",
-		"prettier": "^3.2.5",
-		"recommended": "link:eslint-plugin-package-json/configs/recommended",
-		"recommended-natural": "link:eslint-plugin-perfectionist/configs/recommended-natural",
-		"tsup": "^8.0.2",
-		"typescript": "^5.4.5",
-		"typescript-eslint": "^7.10.0",
-		"vitest": "^1.6.0"
+	"name": "@thalabs/sc-wallet-server-trpc",
+	"version": "0.0.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/thalabs/server-trpc"
 	},
-	"engines": {
-		"node": ">=18"
-	},
+	"license": "MIT",
+	"main": "./lib/index.js",
 	"files": [
 		"lib/",
 		"package.json",
 		"LICENSE.md",
 		"README.md"
 	],
-	"license": "MIT",
-	"lint-staged": {
-		"*": "prettier --ignore-unknown --write"
-	},
-	"main": "./lib/index.js",
-	"name": "@thalabs/sc-wallet-server-trpc",
-	"publishConfig": {
-		"provenance": true
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/thalabs/server-trpc"
-	},
 	"scripts": {
 		"build": "tsup",
 		"format": "prettier .",
 		"lint": "eslint . --max-warnings 0",
+		"lint:fix": "eslint . --fix",
 		"lint:knip": "knip",
 		"lint:md": "markdownlint \"**/*.md\" \".github/**/*.md\" --rules sentences-per-line",
 		"lint:packages": "pnpm dedupe --check",
@@ -61,7 +27,9 @@
 		"test": "vitest",
 		"tsc": "tsc"
 	},
-	"type": "module",
+	"lint-staged": {
+		"*": "prettier --ignore-unknown --write"
+	},
 	"dependencies": {
 		"@trpc/client": "11.0.0-rc.377",
 		"@trpc/server": "11.0.0-rc.377",
@@ -72,5 +40,28 @@
 		"cors": "^2.8.5",
 		"express": "^4.19.2",
 		"zod": "^3.23.8"
+	},
+	"devDependencies": {
+		"@repo/eslint-config": "workspace:*",
+		"cspell": "^8.8.3",
+		"eslint-plugin-yml": "^1.14.0",
+		"husky": "^9.0.11",
+		"knip": "^5.16.0",
+		"markdownlint": "^0.34.0",
+		"prettier": "^3.2.5",
+		"prettier-plugin-curly": "^0.2.1",
+		"tsup": "^8.0.2",
+		"typescript": "^5.4.5",
+		"vitest": "^1.6.0"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"ignorePatterns": [
+		"node_modules/",
+		"dist/"
+	],
+	"publishConfig": {
+		"provenance": true
 	}
 }

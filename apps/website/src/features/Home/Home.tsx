@@ -18,8 +18,8 @@ export default function Home() {
   return (
     <div>
       <h1>Home</h1>
-      {<button onClick={openLogin}>Select wallet</button>}
-      {isSignedIn && <p>Hello {userAddress}</p>}
+      <button onClick={openLogin}>Select wallet</button>
+      {isSignedIn ? <p>Hello {userAddress}</p> : null}
       <Balances address={`${userAddress}.scw-sip-010`} />
       <DeployWallet />
       <FundWallet address={`${userAddress}.scw-sip-010`} />
