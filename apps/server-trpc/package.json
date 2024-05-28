@@ -1,39 +1,6 @@
 {
-	"name": "@thalabs/sc-wallet-server-trpc",
-	"version": "0.0.0",
-	"description": "The backend for sc wallet operations",
 	"author": {
 		"name": "thalabs"
-	},
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/thalabs/server-trpc"
-	},
-	"engines": {
-		"node": ">=18"
-	},
-	"main": "./lib/index.js",
-	"files": [
-		"lib/",
-		"package.json",
-		"LICENSE.md",
-		"README.md"
-	],
-	"publishConfig": {
-		"provenance": true
-	},
-	"scripts": {
-		"build": "tsup",
-		"format": "prettier .",
-		"lint": "eslint . --max-warnings 0",
-		"lint:knip": "knip",
-		"lint:md": "markdownlint \"**/*.md\" \".github/**/*.md\" --rules sentences-per-line",
-		"lint:packages": "pnpm dedupe --check",
-		"lint:spelling": "cspell \"**\" \".github/**/*\"",
-		"prepare": "husky",
-		"test": "vitest",
-		"tsc": "tsc"
 	},
 	"dependencies": {
 		"@trpc/client": "11.0.0-rc.377",
@@ -46,7 +13,9 @@
 		"express": "^4.19.2",
 		"zod": "^3.23.8"
 	},
+	"description": "The backend for sc wallet operations",
 	"devDependencies": {
+		"@repo/eslint-config": "workspace:*",
 		"cspell": "^8.8.3",
 		"husky": "^9.0.11",
 		"knip": "^5.16.0",
@@ -54,11 +23,42 @@
 		"prettier": "^3.2.5",
 		"tsup": "^8.0.2",
 		"typescript": "^5.4.5",
-		"vitest": "^1.6.0",
-		"@repo/eslint-config": "workspace:*"
+		"vitest": "^1.6.0"
 	},
+	"engines": {
+		"node": ">=18"
+	},
+	"files": [
+		"lib/",
+		"package.json",
+		"LICENSE.md",
+		"README.md"
+	],
+	"ignorePatterns": ["node_modules/", "dist/"],
+	"license": "MIT",
 	"lint-staged": {
 		"*": "prettier --ignore-unknown --write"
 	},
-	"ignorePatterns": ["node_modules/", "dist/"]
+	"main": "./lib/index.js",
+	"name": "@thalabs/sc-wallet-server-trpc",
+	"version": "0.0.0",
+	"publishConfig": {
+		"provenance": true
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/thalabs/server-trpc"
+	},
+	"scripts": {
+		"build": "tsup",
+		"format": "prettier .",
+		"lint": "eslint . --max-warnings 0",
+		"lint:knip": "knip",
+		"lint:md": "markdownlint \"**/*.md\" \".github/**/*.md\" --rules sentences-per-line",
+		"lint:packages": "pnpm dedupe --check",
+		"lint:spelling": "cspell \"**\" \".github/**/*\"",
+		"prepare": "husky",
+		"test": "vitest",
+		"tsc": "tsc"
+	}
 }

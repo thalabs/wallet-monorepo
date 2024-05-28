@@ -1,8 +1,8 @@
 import { useConnect } from "@stacks/connect-react";
 import { useCallback } from "react";
+import { contractPrincipalCV, trueCV } from "@stacks/transactions";
 import { network } from "../../../services/stacks-apis";
 import { userSession } from "../../../stacks/auth";
-import { contractPrincipalCV, trueCV } from "@stacks/transactions";
 
 const walletCode = `
 ;; title: wally-main
@@ -147,18 +147,18 @@ const sip010ExtCode = `
     (default-to false (map-get? token-wl token-id)))`;
 
 export default function DeployWallet() {
-  const { doContractDeploy, doContractCall } = useConnect();
+  const { doContractCall, doContractDeploy } = useConnect();
   const userAddress = userSession.loadUserData().profile.stxAddress.testnet;
   const deploy = useCallback(async () => {
     await doContractDeploy({
-      contractName: "wally-main",
       codeBody: walletCode,
+      contractName: "wally-main",
       network,
     });
 
     await doContractDeploy({
-      contractName: "scw-sip-010",
       codeBody: sip010ExtCode,
+      contractName: "scw-sip-010",
       network,
     });
   }, []);
@@ -167,9 +167,9 @@ export default function DeployWallet() {
     await doContractCall({
       contractAddress: userAddress,
       contractName: "wally-main",
+      functionArgs: [contractPrincipalCV(userAddress, "scw-sip-010"), trueCV()],
       functionName: "set-extension",
       network,
-      functionArgs: [contractPrincipalCV(userAddress, "scw-sip-010"), trueCV()],
     });
   }, []);
 
@@ -177,8 +177,6 @@ export default function DeployWallet() {
     await doContractCall({
       contractAddress: userAddress,
       contractName: "scw-sip-010",
-      functionName: "set-token-wl",
-      network,
       functionArgs: [
         contractPrincipalCV(
           "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
@@ -186,6 +184,8 @@ export default function DeployWallet() {
         ),
         trueCV(),
       ],
+      functionName: "set-token-wl",
+      network,
     });
   }, []);
   return (

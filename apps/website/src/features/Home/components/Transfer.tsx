@@ -22,8 +22,6 @@ export default function TransferTokens({ address }: { address: string }) {
     await doContractCall({
       contractAddress,
       contractName,
-      functionName: "transfer",
-      network,
       functionArgs: [
         contractPrincipalCV(
           "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
@@ -34,6 +32,8 @@ export default function TransferTokens({ address }: { address: string }) {
         standardPrincipalCV(recipient),
         noneCV(),
       ],
+      functionName: "transfer",
+      network,
       postConditions: [
         createSTXPostCondition(address, FungibleConditionCode.Equal, amount),
       ],
@@ -48,7 +48,7 @@ export default function TransferTokens({ address }: { address: string }) {
           type="text"
           id="recipient"
           value={recipient}
-          onChange={(e) => setRecipient(e.target.value)}
+          onChange={(e) => { setRecipient(e.target.value); }}
         />
         <br />
         <label htmlFor="amount">Amount:</label>
@@ -56,7 +56,7 @@ export default function TransferTokens({ address }: { address: string }) {
           type="number"
           id="amount"
           value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(e) => { setAmount(e.target.value); }}
         />
         <br />
         <button type="submit">Transfer</button>

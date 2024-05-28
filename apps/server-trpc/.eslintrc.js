@@ -48,7 +48,6 @@
 
 
 module.exports = {
-	root: true,
 	extends: [
 		"@repo/eslint-config/library",
 		"@repo/eslint-config/jsonc",
@@ -61,26 +60,6 @@ module.exports = {
 		"pnpm-lock.yaml",
 		"**/*.snap"
 	],
-	rules: {
-		"logical-assignment-operators": [
-			"error",
-			"always",
-			{ enforceForIfStatements: true }
-		],
-		"operator-assignment": "error",
-		"no-constant-condition": "off",
-		"@typescript-eslint/no-unused-vars": ["error", { caughtErrors: "all" }],
-		"perfectionist/sort-objects": [
-			"error",
-			{
-				order: "asc",
-				"partition-by-comment": true,
-				type: "natural"
-			}
-		],
-		"no-useless-rename": "error",
-		"object-shorthand": "error"
-	},
 	overrides: [
 		{
 			files: ["**/*.md/*.ts"],
@@ -98,7 +77,28 @@ module.exports = {
 				"@typescript-eslint/no-unsafe-call": "off"
 			}
 		}
-	]
+	],
+	root: true,
+	rules: {
+		"@typescript-eslint/no-unused-vars": ["error", { caughtErrors: "all" }],
+		"logical-assignment-operators": [
+			"error",
+			"always",
+			{ enforceForIfStatements: true }
+		],
+		"no-constant-condition": "off",
+		"no-useless-rename": "error",
+		"object-shorthand": "error",
+		"operator-assignment": "error",
+		"perfectionist/sort-objects": [
+			"error",
+			{
+				order: "asc",
+				"partition-by-comment": true,
+				type: "natural"
+			}
+		]
+	}
 };
 
 

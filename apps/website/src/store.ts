@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { accountsApi } from "./services/accounts";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import { accountsApi } from "./services/accounts";
 
 export const store = configureStore({
+  devTools: process.env.NODE_ENV !== "production",
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(accountsApi.middleware),
   reducer: {
     [accountsApi.reducerPath]: accountsApi.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(accountsApi.middleware),
-  devTools: process.env.NODE_ENV !== "production",
 });
 
 setupListeners(store.dispatch);

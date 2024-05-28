@@ -1,13 +1,12 @@
 import { AccountsApi } from "@stacks/blockchain-api-client";
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { AddressBalanceResponse } from "@stacks/stacks-blockchain-api-types";
+import { type AddressBalanceResponse } from "@stacks/stacks-blockchain-api-types";
 import { stacksApiConfig } from "./stacks-apis";
 
 export type stacksPrincipal = `${string}` | `${string}.${string}`;
 
 const api = new AccountsApi(stacksApiConfig);
 export const accountsApi = createApi({
-  reducerPath: "accountsApi",
   baseQuery: async () => {
     return { data: [] };
   },
@@ -23,5 +22,6 @@ export const accountsApi = createApi({
       },
     }),
   }),
+  reducerPath: "accountsApi",
 });
 export const { useGetBalancesQuery } = accountsApi;
