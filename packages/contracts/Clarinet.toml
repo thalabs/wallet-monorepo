@@ -15,8 +15,8 @@ path = 'contracts/extensions/dummy-caller-ext.clar'
 clarity_version = 2
 epoch = 2.5
 
-[contracts.wally-main]
-path = 'contracts/wally-main.clar'
+[contracts.scw-ap]
+path = 'contracts/extensions/scw-ap.clar'
 clarity_version = 2
 epoch = 2.5
 
@@ -25,6 +25,10 @@ path = 'contracts/extensions/scw-sip-010.clar'
 clarity_version = 2
 epoch = 2.5
 
+[contracts.wally-main]
+path = 'contracts/wally-main.clar'
+clarity_version = 2
+epoch = 2.5
 [repl.analysis]
 passes = ['check_checker']
 
