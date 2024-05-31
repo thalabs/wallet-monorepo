@@ -16,7 +16,7 @@ export function setExtension(ext: string, state: boolean, sender = deployer) {
     contract("wally-main"),
     "set-extension",
     [contractPrincipalCV(deployer, ext), boolCV(state)],
-    sender
+    sender,
   ).result;
 }
 export function isExtension(ext: string) {
@@ -24,7 +24,7 @@ export function isExtension(ext: string) {
     contract("wally-main"),
     "is-extension",
     [contractPrincipalCV(deployer, ext)],
-    deployer
+    deployer,
   ).result;
 }
 export function isOwnerOrExtension(sender: string) {
@@ -32,7 +32,7 @@ export function isOwnerOrExtension(sender: string) {
     contract("scw-sip-010"),
     "is-owner-or-extension",
     [],
-    sender
+    sender,
   ).result;
 }
 
@@ -46,7 +46,7 @@ export function getStxBalance(address: string) {
           ? contractPrincipalCV(...(address.split(".") as [string, string]))
           : standardPrincipalCV(address),
       ],
-      deployer
+      deployer,
     ).result as ResponseOkCV<UIntCV>
   ).value.value;
 }

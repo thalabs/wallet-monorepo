@@ -19,5 +19,7 @@ module.exports = {
   },
 
   // add rules configurations here
-  rules: {},
+  rules: {
+    "unicorn/filename-case": "off",
+  },
 };

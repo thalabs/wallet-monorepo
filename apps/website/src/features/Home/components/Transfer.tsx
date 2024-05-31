@@ -10,7 +10,7 @@ import {
 import { useMemo, useState } from "react";
 import { network } from "../../../services/stacks-apis";
 
-export default function TransferTokens({ address }: { address: string }) {
+export function TransferTokens({ address }: { address: string }): JSX.Element {
   const { doContractCall } = useConnect();
   const [recipient, setRecipient] = useState("");
   const [amount, setAmount] = useState("");
@@ -18,8 +18,8 @@ export default function TransferTokens({ address }: { address: string }) {
     () => address.split("."),
     [address],
   );
-  async function handleSubmit() {
-    await doContractCall({
+  function handleSubmit(): void {
+    void doContractCall({
       contractAddress,
       contractName,
       functionArgs: [
@@ -48,7 +48,9 @@ export default function TransferTokens({ address }: { address: string }) {
           type="text"
           id="recipient"
           value={recipient}
-          onChange={(e) => { setRecipient(e.target.value); }}
+          onChange={(e) => {
+            setRecipient(e.target.value);
+          }}
         />
         <br />
         <label htmlFor="amount">Amount:</label>
@@ -56,7 +58,9 @@ export default function TransferTokens({ address }: { address: string }) {
           type="number"
           id="amount"
           value={amount}
-          onChange={(e) => { setAmount(e.target.value); }}
+          onChange={(e) => {
+            setAmount(e.target.value);
+          }}
         />
         <br />
         <button type="submit">Transfer</button>

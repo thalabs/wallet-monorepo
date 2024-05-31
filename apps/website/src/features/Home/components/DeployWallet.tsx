@@ -146,35 +146,47 @@ const sip010ExtCode = `
 (define-private (is-token-enabled (token-id principal))
     (default-to false (map-get? token-wl token-id)))`;
 
-export default function DeployWallet() {
+interface UserData {
+  profile: {
+    stxAddress: {
+      testnet: string;
+    };
+  };
+}
+export function DeployWallet(): JSX.Element {
   const { doContractCall, doContractDeploy } = useConnect();
-  const userAddress = userSession.loadUserData().profile.stxAddress.testnet;
-  const deploy = useCallback(async () => {
-    await doContractDeploy({
+  const userAddress: string = (userSession.loadUserData() as UserData).profile
+    .stxAddress.testnet;
+  const deploy = useCallback(() => {
+    // TODO: move logic out of UI
+    void doContractDeploy({
       codeBody: walletCode,
       contractName: "wally-main",
       network,
+      onFinish() {
+        void doContractDeploy({
+          codeBody: sip010ExtCode,
+          contractName: "scw-sip-010",
+          network,
+        });
+      },
     });
+  }, [doContractDeploy]);
 
-    await doContractDeploy({
-      codeBody: sip010ExtCode,
-      contractName: "scw-sip-010",
-      network,
-    });
-  }, []);
-
-  const enableSip010 = useCallback(async () => {
-    await doContractCall({
+  const enableSip010 = useCallback(() => {
+    // TODO: move logic out of UI
+    void doContractCall({
       contractAddress: userAddress,
       contractName: "wally-main",
       functionArgs: [contractPrincipalCV(userAddress, "scw-sip-010"), trueCV()],
       functionName: "set-extension",
       network,
     });
-  }, []);
+  }, [doContractCall, userAddress]);
 
-  const enableWSTX = useCallback(async () => {
-    await doContractCall({
+  const enableWSTX = useCallback(() => {
+    // TODO: move logic out of UI
+    void doContractCall({
       contractAddress: userAddress,
       contractName: "scw-sip-010",
       functionArgs: [
@@ -187,17 +199,23 @@ export default function DeployWallet() {
       functionName: "set-token-wl",
       network,
     });
-  }, []);
+  }, [doContractCall, userAddress]);
   return (
     <div>
       <h2>Deploy Wallet</h2>
-      <button onClick={deploy}>Deploy</button>
+      <button type="button" onClick={deploy}>
+        Deploy
+      </button>
 
       <h2>Enable Sip-010 Extension</h2>
-      <button onClick={enableSip010}>Enable</button>
+      <button type="button" onClick={enableSip010}>
+        Enable
+      </button>
 
       <h2>Enable WSTX Token</h2>
-      <button onClick={enableWSTX}>Enable</button>
+      <button type="button" onClick={enableWSTX}>
+        Enable
+      </button>
     </div>
   );
 }

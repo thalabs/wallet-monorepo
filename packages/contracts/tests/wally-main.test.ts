@@ -41,8 +41,8 @@ describe("main wallet", () => {
         contract(dummyExt),
         "test-set-extension",
         [],
-        address1
-      ).result
+        address1,
+      ).result,
     ).toBeErr(uintCV(401));
 
     expect(
@@ -50,8 +50,8 @@ describe("main wallet", () => {
         contract(dummyExt),
         "test-set-extension",
         [],
-        deployer
-      ).result
+        deployer,
+      ).result,
     ).toBeErr(uintCV(401));
 
     expect(isExtension(sip10Ext)).toBeBool(false);
