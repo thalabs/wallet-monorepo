@@ -30,10 +30,14 @@ export function Home(): JSX.Element {
         Select wallet
       </button>
       {isSignedIn ? <p>Hello {userAddress}</p> : null}
-      <Balances address={`${userAddress}.scw-sip-010`} />
-      <DeployWallet />
-      <FundWallet address={`${userAddress}.scw-sip-010`} />
-      <TransferTokens address={`${userAddress}.scw-sip-010`} />
+      {userAddress ? (
+        <>
+          <Balances address={`${userAddress}.scw-sip-010`} />
+          <DeployWallet />
+          <FundWallet address={`${userAddress}.scw-sip-010`} />
+          <TransferTokens address={`${userAddress}.scw-sip-010`} />
+        </>
+      ) : null}
     </div>
   );
 }

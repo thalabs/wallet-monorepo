@@ -18,8 +18,8 @@ export function TransferTokens({ address }: { address: string }): JSX.Element {
     () => address.split("."),
     [address],
   );
-  function handleSubmit() {
-     doContractCall({
+  function handleSubmit(): void {
+    void doContractCall({
       contractAddress,
       contractName,
       functionArgs: [

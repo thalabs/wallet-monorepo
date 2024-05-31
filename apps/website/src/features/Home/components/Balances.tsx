@@ -1,10 +1,6 @@
 import { useGetBalancesQuery } from "../../../services/accounts";
 
-export function Balances({
-  address,
-}: {
-  address: `${string}` | `${string}.${string}`;
-}): JSX.Element {
+export function Balances({ address }: { address: string }): JSX.Element {
   const { data, isLoading } = useGetBalancesQuery(address);
 
   return (

@@ -157,22 +157,25 @@ export function DeployWallet(): JSX.Element {
   const { doContractCall, doContractDeploy } = useConnect();
   const userAddress: string = (userSession.loadUserData() as UserData).profile
     .stxAddress.testnet;
-  const deploy = useCallback(async () => {
-    await doContractDeploy({
+  const deploy = useCallback(() => {
+    // TODO: move logic out of UI
+    void doContractDeploy({
       codeBody: walletCode,
       contractName: "wally-main",
       network,
-    });
-
-    await doContractDeploy({
-      codeBody: sip010ExtCode,
-      contractName: "scw-sip-010",
-      network,
+      onFinish() {
+        void doContractDeploy({
+          codeBody: sip010ExtCode,
+          contractName: "scw-sip-010",
+          network,
+        });
+      },
     });
   }, [doContractDeploy]);
 
-  const enableSip010 = useCallback(async () => {
-    await doContractCall({
+  const enableSip010 = useCallback(() => {
+    // TODO: move logic out of UI
+    void doContractCall({
       contractAddress: userAddress,
       contractName: "wally-main",
       functionArgs: [contractPrincipalCV(userAddress, "scw-sip-010"), trueCV()],
@@ -181,8 +184,9 @@ export function DeployWallet(): JSX.Element {
     });
   }, [doContractCall, userAddress]);
 
-  const enableWSTX = useCallback(async () => {
-    await doContractCall({
+  const enableWSTX = useCallback(() => {
+    // TODO: move logic out of UI
+    void doContractCall({
       contractAddress: userAddress,
       contractName: "scw-sip-010",
       functionArgs: [

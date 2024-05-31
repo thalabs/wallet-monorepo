@@ -5,7 +5,7 @@ import { network } from "../../../services/stacks-apis";
 export function FundWallet({ address }: { address: string }): JSX.Element {
   const { doSTXTransfer } = useConnect();
   const fundWallet = useCallback(() => {
-    doSTXTransfer({
+    void doSTXTransfer({
       amount: "1000000000",
       network,
       recipient: address,
