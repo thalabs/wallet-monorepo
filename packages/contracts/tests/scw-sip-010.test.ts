@@ -13,6 +13,13 @@ import {
 } from "@stacks/transactions";
 import { type ParsedTransactionResult } from "@hirosystems/clarinet-sdk";
 import { contract, getStxBalance, setExtension } from "./util";
+// import { projectFactory } from "@clarigen/core";
+import {
+  accounts,
+  // project
+} from "../src/clarigen-types";
+
+// const {} = projectFactory(project, "simnet");
 
 function transfer(
   tokenId: string,
@@ -76,11 +83,9 @@ function getTokenWL(tokenId: `${string}.${string}`): ClarityValue {
     deployer,
   ).result;
 }
-const accounts = simnet.getAccounts();
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
-const deployer = accounts.get("deployer")!;
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
-const address1 = accounts.get("wallet_1")!;
+
+const deployer = accounts.deployer.address;
+const address1 = accounts.wallet_1.address;
 
 describe("sip-010 extension", () => {
   it("ensures simnet is well initialized", () => {
