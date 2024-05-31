@@ -1,8 +1,8 @@
 import { useConnect } from "@stacks/connect-react";
 import { useCallback } from "react";
 import { contractPrincipalCV, trueCV } from "@stacks/transactions";
-import { network } from "../../../services/stacks-apis";
-import { userSession } from "../../../stacks/auth";
+import { userSession } from "../stacks/auth";
+import { network } from "../services/stacks-apis";
 
 const walletCode = `
 ;; title: wally-main

@@ -1,10 +1,12 @@
 import { useConnect } from "@stacks/connect-react";
 import { useCallback } from "react";
-import { userSession } from "../../stacks/auth";
-import { Balances } from "./components/Balances";
-import { DeployWallet } from "./components/DeployWallet";
-import { FundWallet } from "./components/FundWallet";
-import { TransferTokens } from "./components/Transfer";
+import { userSession } from "../stacks/auth";
+import {
+  Balances,
+  DeployWallet,
+  FundWallet,
+  TransferTokens,
+} from "../components";
 
 interface UserData {
   profile: {
