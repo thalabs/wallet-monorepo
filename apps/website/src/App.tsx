@@ -2,10 +2,10 @@ import { Connect } from "@stacks/connect-react";
 import "./App.css";
 import { Provider } from "react-redux";
 import { authOptions } from "./stacks/auth";
-import Home from "./features/Home/Home";
+import { Home } from "./features/Home/Home";
 import { store } from "./store";
 
-function App() {
+export function App(): JSX.Element {
   return (
     <Connect authOptions={authOptions}>
       <Provider store={store}>
@@ -14,5 +14,3 @@ function App() {
     </Connect>
   );
 }
-
-export default App;

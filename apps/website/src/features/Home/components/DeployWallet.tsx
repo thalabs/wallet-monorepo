@@ -146,9 +146,17 @@ const sip010ExtCode = `
 (define-private (is-token-enabled (token-id principal))
     (default-to false (map-get? token-wl token-id)))`;
 
-export default function DeployWallet() {
+interface UserData {
+  profile: {
+    stxAddress: {
+      testnet: string;
+    };
+  };
+}
+export function DeployWallet(): JSX.Element {
   const { doContractCall, doContractDeploy } = useConnect();
-  const userAddress = userSession.loadUserData().profile.stxAddress.testnet;
+  const userAddress: string = (userSession.loadUserData() as UserData).profile
+    .stxAddress.testnet;
   const deploy = useCallback(async () => {
     await doContractDeploy({
       codeBody: walletCode,
@@ -161,7 +169,7 @@ export default function DeployWallet() {
       contractName: "scw-sip-010",
       network,
     });
-  }, []);
+  }, [doContractDeploy]);
 
   const enableSip010 = useCallback(async () => {
     await doContractCall({
@@ -171,7 +179,7 @@ export default function DeployWallet() {
       functionName: "set-extension",
       network,
     });
-  }, []);
+  }, [doContractCall, userAddress]);
 
   const enableWSTX = useCallback(async () => {
     await doContractCall({
@@ -187,17 +195,23 @@ export default function DeployWallet() {
       functionName: "set-token-wl",
       network,
     });
-  }, []);
+  }, [doContractCall, userAddress]);
   return (
     <div>
       <h2>Deploy Wallet</h2>
-      <button onClick={deploy}>Deploy</button>
+      <button type="button" onClick={deploy}>
+        Deploy
+      </button>
 
       <h2>Enable Sip-010 Extension</h2>
-      <button onClick={enableSip010}>Enable</button>
+      <button type="button" onClick={enableSip010}>
+        Enable
+      </button>
 
       <h2>Enable WSTX Token</h2>
-      <button onClick={enableWSTX}>Enable</button>
+      <button type="button" onClick={enableWSTX}>
+        Enable
+      </button>
     </div>
   );
 }
