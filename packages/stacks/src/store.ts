@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { accountsApi } from "./accounts";
+import { connectApi } from "./connect";
 
 export const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
@@ -8,6 +9,7 @@ export const store = configureStore({
     getDefaultMiddleware().concat(accountsApi.middleware),
   reducer: {
     [accountsApi.reducerPath]: accountsApi.reducer,
+    [connectApi.reducerPath]: connectApi.reducer,
   },
 });
 

@@ -48,12 +48,6 @@ importers:
         specifier: ^9.1.2
         version: 9.1.2(@types/react@18.3.3)(react@18.3.1)(redux@5.0.1)
     devDependencies:
-      '@repo/eslint-config':
-        specifier: workspace:*
-        version: link:../../packages/eslint-config
-      '@repo/tsconfig':
-        specifier: workspace:*
-        version: link:../../packages/tsconfig
       '@types/react':
         specifier: ^18.2.66
         version: 18.3.3
@@ -147,25 +141,17 @@ importers:
       '@stacks/blockchain-api-client':
         specifier: 7.10.0
         version: 7.10.0
+      '@stacks/connect':
+        specifier: 7.7.1
+        version: 7.7.1
       '@stacks/network':
         specifier: 6.13.0
         version: 6.13.0
       '@stacks/stacks-blockchain-api-types':
         specifier: 7.10.0
         version: 7.10.0
-    devDependencies:
-      '@repo/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
-      '@repo/tsconfig':
-        specifier: workspace:*
-        version: link:../tsconfig
 
-  packages/tsconfig:
-    devDependencies:
-      '@repo/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
+  packages/tsconfig: {}
 
 packages:
 
