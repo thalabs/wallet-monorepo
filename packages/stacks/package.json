@@ -16,9 +16,5 @@
     "@stacks/network": "6.13.0",
     "@stacks/stacks-blockchain-api-types": "7.10.0",
     "@reduxjs/toolkit": "2.2.5"
-  },
-  "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/tsconfig": "workspace:*"
   }
 }
