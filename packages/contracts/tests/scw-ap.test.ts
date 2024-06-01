@@ -1,7 +1,6 @@
 import {
   contractPrincipalCV,
   listCV,
-  principalCV,
   someCV,
   tupleCV,
   uintCV,
@@ -29,14 +28,12 @@ describe("Automatic payment", () => {
 
     expect(tokenQueryResult).toBeOk(
       tupleCV({
-        "token-id": contractPrincipalCV(deployer, "wstx"),
-        amount: uintCV(1000_000),
         cadence: uintCV(blockTimeDay),
         "expires-at": someCV(uintCV(blockTimeDay * 7 + simnet.blockHeight - 1)),
-        "dispatcher-whitelist": listCV([principalCV(deployer)]),
+        "dispatcher-whitelist": listCV([
+          contractPrincipalCV(deployer, "ap-dispatcher"),
+        ]),
       })
     );
   });
-
-  it;
 });

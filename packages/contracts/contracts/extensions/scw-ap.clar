@@ -6,7 +6,7 @@
 
 ;; traits
 ;;
-
+(impl-trait .ap-trait.ap-trait)
 ;; token definitions
 ;;
 
@@ -27,16 +27,15 @@
 
 ;; public functions
 ;;
-
+(define-public (execute) 
+    (ok true))
 ;; read only functions
 ;;
 (define-read-only (get-ap-meta) 
     (ok {
-            token-id: .wstx,
-            amount: (* u1000 u1000),
             cadence: DAY,
             expires-at: (some (+ burn-block-height (* u7 DAY))),
-            dispatcher-whitelist: (list DEPLOYER)
+            dispatcher-whitelist: (list .ap-dispatcher)
         })
 )
 
