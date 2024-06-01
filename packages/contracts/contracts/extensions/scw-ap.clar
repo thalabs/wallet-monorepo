@@ -37,17 +37,20 @@
         (ok true)))
 
 (define-public (remove-dispatcher (dispatcher principal)) 
-    (let (
-        (wl (var-get dispatcher-whitelist))
-        )
+    (begin
         (asserts! (is-eq tx-sender DEPLOYER) ERR-UNAUTHORIZED)
         (let (
+                (wl (var-get dispatcher-whitelist))
+                ;; #[filter(dispatcher)]
                 (dispatcher-index (unwrap! (index-of? wl dispatcher) ERR-NOT-FOUND))
                 (first-slice (default-to (list) (slice? wl u0 dispatcher-index)))
                 (second-slice (default-to (list) (slice? wl (+ dispatcher-index u1) (len wl))))
             ) 
-            (var-set dispatcher-whitelist (unwrap! (as-max-len? (concat first-slice second-slice) u100) ERR-MAX-EXCEEDED))
-        (ok true))))
+            (var-set dispatcher-whitelist 
+                (unwrap! 
+                    (as-max-len? (concat first-slice second-slice) u100) 
+                ERR-MAX-EXCEEDED))
+            (ok true))))
 
 (define-public (execute)
     (let (
@@ -59,7 +62,7 @@
         (ok true)))
 ;; read only functions
 ;;
-(define-read-only (get-ap-meta) 
+(define-read-only (get-ap-meta)
     (ok {
             cadence: DAY,
             expires-at: (some (+ burn-block-height (* u7 DAY))),
