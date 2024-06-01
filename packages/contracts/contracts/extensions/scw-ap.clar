@@ -18,6 +18,7 @@
 (define-constant ERR-UNAUTHORIZED (err u401))
 (define-constant ERR-COOLDOWN (err u402))
 (define-constant ERR-ALREADY-EXISTS (err u409))
+(define-constant ERR-AP-EXPIRED (err u408))
 (define-constant ERR-MAX-EXCEEDED (err u429))
 (define-constant ERR-NOT-FOUND (err u404))
 
@@ -26,6 +27,7 @@
 ;;
 (define-data-var dispatcher-whitelist (list 100 principal) (list .ap-dispatcher))
 (define-data-var last-executed-at uint u0)
+(define-data-var expires-at (optional uint) (some (+ burn-block-height (* u7 DAY))))
 ;; data maps
 ;;
 
@@ -62,6 +64,7 @@
             (is-some (index-of? (var-get dispatcher-whitelist) tx-sender))
         ) ERR-UNAUTHORIZED)
         (asserts! (>= burn-block-height (+ (var-get last-executed-at) CADENCE)) ERR-COOLDOWN)
+        (asserts! (or (is-none (var-get expires-at)) (< burn-block-height (unwrap-panic (var-get expires-at)))) ERR-AP-EXPIRED)
         (try! (contract-call? .scw-sip-010 transfer 'SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx (* u10 u1000 u1000) .scw-sip-010 'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC none))
         (try! (contract-call? .scw-sip-010 transfer 'SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx (* u500 u1000) .scw-sip-010 fee-recipient none))
         (var-set last-executed-at burn-block-height)
@@ -71,7 +74,7 @@
 (define-read-only (get-ap-meta)
     (ok {
             cadence: CADENCE,
-            expires-at: (some (+ burn-block-height (* u7 DAY))),
+            expires-at: (var-get expires-at),
             dispatcher-whitelist: (var-get dispatcher-whitelist),
         })
 )
