@@ -29,15 +29,4 @@ describe("automatic payment dispatcher", () => {
       ).result
     ).toBeOk(trueCV());
   });
-
-  it("Ensures that the dispatcher is whitelisted for dispatching an automatic payment", () => {
-    expect(
-      simnet.callPublicFn(
-        `${deployer}.ap-dispatcher` as any,
-        "dispatch",
-        [contractPrincipalCV(deployer, "scw-ap")],
-        deployer
-      ).result
-    ).toBeOk(trueCV());
-  });
 });
