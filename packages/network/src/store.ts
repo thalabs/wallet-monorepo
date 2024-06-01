@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { accountsApi } from "./services/accounts";
+import { accountsApi } from "./accounts";
 
 export const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
