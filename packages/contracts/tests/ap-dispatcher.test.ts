@@ -1,7 +1,9 @@
+import { contractPrincipalCV, trueCV, uintCV } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
 
-// const accounts = simnet.getAccounts();
-// const address1 = accounts.get("wallet_1")!;
+const accounts = simnet.getAccounts();
+const address1 = accounts.get("wallet_1")!;
+const deployer = accounts.get("deployer")!;
 
 /*
   The test below is an example. To learn more, read the testing documentation here:
@@ -10,6 +12,21 @@ import { describe, expect, it } from "vitest";
 
 describe("automatic payment dispatcher", () => {
   it("Ensures that only the owner can dispatch an automatic payment", () => {
-    expect(simnet.blockHeight).toBeDefined();
+    expect(
+      simnet.callPublicFn(
+        `${deployer}.ap-dispatcher`,
+        "dispatch",
+        [contractPrincipalCV(deployer, "scw-ap")],
+        address1
+      ).result
+    ).toBeErr(uintCV(401));
+    expect(
+      simnet.callPublicFn(
+        `${deployer}.ap-dispatcher`,
+        "dispatch",
+        [contractPrincipalCV(deployer, "scw-ap")],
+        deployer
+      ).result
+    ).toBeOk(trueCV());
   });
 });
