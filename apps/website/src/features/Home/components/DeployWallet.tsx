@@ -1,7 +1,7 @@
 import { useConnect } from "@stacks/connect-react";
 import { useCallback } from "react";
 import { contractPrincipalCV, trueCV } from "@stacks/transactions";
-import { network } from "@repo/network";
+import { network } from "@repo/stacks";
 import { userSession } from "../../../stacks/auth";
 
 const walletCode = `
