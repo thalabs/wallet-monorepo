@@ -1,74 +1,22 @@
 import { describe, expect, it } from "vitest";
 import {
-  type ClarityValue,
-  boolCV,
   bufferCVFromString,
   contractPrincipalCV,
   falseCV,
-  noneCV,
-  someCV,
-  standardPrincipalCV,
   trueCV,
   uintCV,
 } from "@stacks/transactions";
-import { type ParsedTransactionResult } from "@hirosystems/clarinet-sdk";
-import { contract, getStxBalance, setExtension } from "./util";
 
-function transfer(
-  tokenId: string,
-  amount: number,
-  sender: string,
-  recipient: string,
-  memo: string,
-  caller: string,
-): ParsedTransactionResult {
-  return simnet.callPublicFn(
-    contract("scw-sip-010"),
-    "transfer",
-    [
-      contractPrincipalCV("SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ", tokenId),
-      uintCV(amount),
-      sender.includes(".")
-        ? contractPrincipalCV(...(sender.split(".") as [string, string]))
-        : standardPrincipalCV(sender),
-      standardPrincipalCV(recipient),
-      memo ? someCV(bufferCVFromString(memo)) : noneCV(),
-    ],
-    caller,
-  );
-}
-function chargeWallet(): void {
-  expect(
-    simnet.callPublicFn(
-      "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",
-      "transfer",
-      [
-        uintCV(10),
-        standardPrincipalCV(deployer),
-        contractPrincipalCV(deployer, "scw-sip-010"),
-        noneCV(),
-      ],
-      deployer,
-    ).result,
-  ).toBeOk(trueCV());
-}
-function setTokenWL(
-  tokenId: `${string}.${string}`,
-  state: boolean,
-  sender: string,
-): ClarityValue {
-  return simnet.callPublicFn(
-    contract("scw-sip-010"),
-    "set-token-wl",
-    [
-      contractPrincipalCV(...(tokenId.split(".") as [string, string])),
-      boolCV(state),
-    ],
-    sender,
-  ).result;
-}
+import {
+  chargeWallet,
+  contract,
+  getStxBalance,
+  setExtension,
+  setTokenWL,
+  transfer,
+} from "./util";
 
-function getTokenWL(tokenId: `${string}.${string}`): ClarityValue {
+function getTokenWL(tokenId: `${string}.${string}`) {
   return simnet.callReadOnlyFn(
     contract("scw-sip-010"),
     "get-token-wl",

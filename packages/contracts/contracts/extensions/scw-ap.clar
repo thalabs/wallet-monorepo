@@ -14,7 +14,9 @@
 ;; constants
 ;;
 (define-constant DAY u144)
+(define-constant CADENCE DAY)
 (define-constant ERR-UNAUTHORIZED (err u401))
+(define-constant ERR-COOLDOWN (err u402))
 (define-constant ERR-ALREADY-EXISTS (err u409))
 (define-constant ERR-MAX-EXCEEDED (err u429))
 (define-constant ERR-NOT-FOUND (err u404))
@@ -23,6 +25,7 @@
 ;; data vars
 ;;
 (define-data-var dispatcher-whitelist (list 100 principal) (list .ap-dispatcher))
+(define-data-var last-executed-at uint u0)
 ;; data maps
 ;;
 
@@ -52,19 +55,22 @@
                 ERR-MAX-EXCEEDED))
             (ok true))))
 
-(define-public (execute)
-    (let (
-            (wl (var-get dispatcher-whitelist)))
-        (asserts! (or 
+(define-public (execute (fee-recipient principal))
+    (begin
+        (asserts! (or
             (is-eq tx-sender DEPLOYER)
-            (is-some (index-of? wl tx-sender))
+            (is-some (index-of? (var-get dispatcher-whitelist) tx-sender))
         ) ERR-UNAUTHORIZED)
+        (asserts! (>= burn-block-height (+ (var-get last-executed-at) CADENCE)) ERR-COOLDOWN)
+        (try! (contract-call? .scw-sip-010 transfer 'SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx (* u10 u1000 u1000) .scw-sip-010 'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC none))
+        (try! (contract-call? .scw-sip-010 transfer 'SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx (* u500 u1000) .scw-sip-010 fee-recipient none))
+        (var-set last-executed-at burn-block-height)
         (ok true)))
 ;; read only functions
 ;;
 (define-read-only (get-ap-meta)
     (ok {
-            cadence: DAY,
+            cadence: CADENCE,
             expires-at: (some (+ burn-block-height (* u7 DAY))),
             dispatcher-whitelist: (var-get dispatcher-whitelist),
         })

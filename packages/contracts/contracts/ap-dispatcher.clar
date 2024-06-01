@@ -25,7 +25,7 @@
 (define-public (dispatch (ap <ap-trait>)) 
     (begin 
         (asserts! (is-eq tx-sender OWNER) ERR-UNAUTHORIZED)
-        (ok true)
+        (as-contract (contract-call? ap execute OWNER))
     ))
 
 ;; read only functions
