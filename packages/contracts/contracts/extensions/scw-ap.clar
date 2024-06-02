@@ -33,7 +33,7 @@
 
 ;; public functions
 ;;
-
+;; TODO: move dispatcher registry to different extension that feeds all aps?
 (define-public (add-dispatcher (dispatcher principal))
     (let ((wl (var-get dispatcher-whitelist)))
         (asserts! (is-eq tx-sender DEPLOYER) ERR-UNAUTHORIZED)
@@ -57,13 +57,23 @@
                 ERR-MAX-EXCEEDED))
             (ok true))))
 
+(define-public (update-expiry (new-expiry (optional uint)))
+    (begin 
+        (asserts! (is-eq tx-sender DEPLOYER) ERR-UNAUTHORIZED)
+        ;; FIXME: not sure if we should check for ranges here.
+        (var-set expires-at new-expiry)
+        (ok true)))
+
 (define-public (execute (fee-recipient principal))
     (begin
         (asserts! (or
             (is-eq tx-sender DEPLOYER)
             (is-some (index-of? (var-get dispatcher-whitelist) tx-sender))
         ) ERR-UNAUTHORIZED)
-        (asserts! (>= burn-block-height (+ (var-get last-executed-at) CADENCE)) ERR-COOLDOWN)
+        (asserts! (or 
+            (>= burn-block-height (+ (var-get last-executed-at) CADENCE))
+            (is-eq u0 (var-get last-executed-at))
+        ) ERR-COOLDOWN)
         (asserts! (or (is-none (var-get expires-at)) (< burn-block-height (unwrap-panic (var-get expires-at)))) ERR-AP-EXPIRED)
         (try! (contract-call? .scw-sip-010 transfer 'SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx (* u10 u1000 u1000) .scw-sip-010 'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC none))
         (try! (contract-call? .scw-sip-010 transfer 'SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx (* u500 u1000) .scw-sip-010 fee-recipient none))
