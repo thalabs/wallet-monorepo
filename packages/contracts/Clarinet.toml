@@ -20,6 +20,11 @@ path = 'contracts/traits/ap-trait.clar'
 clarity_version = 2
 epoch = 2.5
 
+[contracts.dispatcher-registry]
+path = 'contracts/extensions/dispatcher-registry.clar'
+clarity_version = 2
+epoch = 2.5
+
 [contracts.dummy-caller-ext]
 path = 'contracts/extensions/dummy-caller-ext.clar'
 clarity_version = 2

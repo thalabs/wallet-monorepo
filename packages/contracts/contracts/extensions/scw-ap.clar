@@ -25,7 +25,6 @@
 (define-constant DEPLOYER tx-sender)
 ;; data vars
 ;;
-(define-data-var dispatcher-whitelist (list 100 principal) (list .ap-dispatcher))
 (define-data-var last-executed-at uint u0)
 (define-data-var expires-at (optional uint) (some (+ burn-block-height (* u7 DAY))))
 ;; data maps
@@ -33,30 +32,6 @@
 
 ;; public functions
 ;;
-;; TODO: move dispatcher registry to different extension that feeds all aps?
-(define-public (add-dispatcher (dispatcher principal))
-    (let ((wl (var-get dispatcher-whitelist)))
-        (asserts! (is-eq tx-sender DEPLOYER) ERR-UNAUTHORIZED)
-        (asserts! (is-none (index-of? wl dispatcher)) ERR-ALREADY-EXISTS)
-        (var-set dispatcher-whitelist (unwrap! (as-max-len? (append wl dispatcher) u100) ERR-MAX-EXCEEDED))
-        (ok true)))
-
-(define-public (remove-dispatcher (dispatcher principal)) 
-    (begin
-        (asserts! (is-eq tx-sender DEPLOYER) ERR-UNAUTHORIZED)
-        (let (
-                (wl (var-get dispatcher-whitelist))
-                ;; #[filter(dispatcher)]
-                (dispatcher-index (unwrap! (index-of? wl dispatcher) ERR-NOT-FOUND))
-                (first-slice (default-to (list) (slice? wl u0 dispatcher-index)))
-                (second-slice (default-to (list) (slice? wl (+ dispatcher-index u1) (len wl))))
-            ) 
-            (var-set dispatcher-whitelist 
-                (unwrap! 
-                    (as-max-len? (concat first-slice second-slice) u100) 
-                ERR-MAX-EXCEEDED))
-            (ok true))))
-
 (define-public (update-expiry (new-expiry (optional uint)))
     (begin 
         (asserts! (is-eq tx-sender DEPLOYER) ERR-UNAUTHORIZED)
@@ -68,7 +43,7 @@
     (begin
         (asserts! (or
             (is-eq tx-sender DEPLOYER)
-            (is-some (index-of? (var-get dispatcher-whitelist) tx-sender))
+            (unwrap-panic (contract-call? .dispatcher-registry is-dispatcher tx-sender))
         ) ERR-UNAUTHORIZED)
         (asserts! (or 
             (>= burn-block-height (+ (var-get last-executed-at) CADENCE))
@@ -85,12 +60,8 @@
     (ok {
             cadence: CADENCE,
             expires-at: (var-get expires-at),
-            dispatcher-whitelist: (var-get dispatcher-whitelist),
         })
 )
-
-(define-read-only (get-dispatchers) 
-    (ok (var-get dispatcher-whitelist)))
 
 ;; private functions
 ;;

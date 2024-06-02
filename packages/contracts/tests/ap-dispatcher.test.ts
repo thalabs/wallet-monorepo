@@ -30,7 +30,7 @@ describe("automatic payment dispatcher", () => {
         address1,
       ).result,
     ).toBeErr(uintCV(401));
-    simnet.mineEmptyBlocks(144);
+
     expect(
       simnet.callPublicFn(
         `${deployer}.ap-dispatcher`,

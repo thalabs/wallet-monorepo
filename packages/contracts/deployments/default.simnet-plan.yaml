@@ -76,6 +76,11 @@ plan:
             path: contracts/ap-dispatcher.clar
             clarity-version: 2
         - emulated-contract-publish:
+            contract-name: dispatcher-registry
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/extensions/dispatcher-registry.clar
+            clarity-version: 2
+        - emulated-contract-publish:
             contract-name: wally-main
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/wally-main.clar

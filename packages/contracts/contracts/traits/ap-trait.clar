@@ -5,7 +5,6 @@
         (response {
                 cadence: uint,
                 expires-at: (optional uint),
-                dispatcher-whitelist: (list 100 principal)
             }
             uint))
 ))

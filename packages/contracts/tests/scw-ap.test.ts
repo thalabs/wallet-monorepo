@@ -4,8 +4,6 @@ import {
   SomeCV,
   TupleCV,
   UIntCV,
-  contractPrincipalCV,
-  listCV,
   noneCV,
   principalCV,
   someCV,
@@ -18,7 +16,6 @@ import { chargeWallet, setExtension, setTokenWL, getStxBalance } from "./util";
 const accounts = simnet.getAccounts();
 const address1 = accounts.get("wallet_1")!;
 
-const address2 = accounts.get("wallet_2")!;
 const deployer = accounts.get("deployer")!;
 
 /*
@@ -52,79 +49,6 @@ describe("Automatic payment", () => {
   //     })
   //   );
   // });
-  it("ensures only owner can add and remove dispatchers from the whitelist", async () => {
-    expect(
-      simnet.callPublicFn(
-        `${deployer}.scw-ap`,
-        "add-dispatcher",
-        [principalCV(address1)],
-        address1,
-      ).result,
-    ).toBeErr(uintCV(401));
-    expect(
-      simnet.callPublicFn(
-        `${deployer}.scw-ap`,
-        "add-dispatcher",
-        [principalCV(address1)],
-        deployer,
-      ).result,
-    ).toBeOk(trueCV());
-
-    expect(
-      simnet.callPublicFn(
-        `${deployer}.scw-ap`,
-        "add-dispatcher",
-        [principalCV(address2)],
-        deployer,
-      ).result,
-    ).toBeOk(trueCV());
-
-    expect(
-      simnet.callReadOnlyFn(
-        `${deployer}.scw-ap`,
-        "get-dispatchers",
-        [],
-        deployer,
-      ).result,
-    ).toBeOk(
-      listCV([
-        contractPrincipalCV(deployer, "ap-dispatcher"),
-        principalCV(address1),
-        principalCV(address2),
-      ]),
-    );
-    expect(
-      simnet.callPublicFn(
-        `${deployer}.scw-ap`,
-        "remove-dispatcher",
-        [principalCV(address1)],
-        deployer,
-      ).result,
-    ).toBeOk(trueCV());
-
-    expect(
-      simnet.callPublicFn(
-        `${deployer}.scw-ap`,
-        "remove-dispatcher",
-        [principalCV(address1)],
-        address1,
-      ).result,
-    ).toBeErr(uintCV(401));
-
-    expect(
-      simnet.callReadOnlyFn(
-        `${deployer}.scw-ap`,
-        "get-dispatchers",
-        [],
-        deployer,
-      ).result,
-    ).toBeOk(
-      listCV([
-        contractPrincipalCV(deployer, "ap-dispatcher"),
-        principalCV(address2),
-      ]),
-    );
-  });
   it("expects that only the owner or a whitelisted dispatcher can call this function", async () => {
     expect(
       simnet.callPublicFn(
@@ -137,9 +61,9 @@ describe("Automatic payment", () => {
 
     expect(
       simnet.callPublicFn(
-        `${deployer}.scw-ap`,
-        "add-dispatcher",
-        [principalCV(address1)],
+        `${deployer}.dispatcher-registry`,
+        "set-dispatcher",
+        [principalCV(address1), trueCV()],
         deployer,
       ).result,
     ).toBeOk(trueCV());
@@ -160,9 +84,9 @@ describe("Automatic payment", () => {
   it("ensures cadence is enforced", () => {
     expect(
       simnet.callPublicFn(
-        `${deployer}.scw-ap`,
-        "add-dispatcher",
-        [principalCV(address1)],
+        `${deployer}.dispatcher-registry`,
+        "set-dispatcher",
+        [principalCV(address1), trueCV()],
         deployer,
       ).result,
     ).toBeOk(trueCV());
@@ -205,13 +129,13 @@ describe("Automatic payment", () => {
   it("ensures that the ap is disabled when expiry is reached", async () => {
     expect(
       simnet.callPublicFn(
-        `${deployer}.scw-ap`,
-        "add-dispatcher",
-        [principalCV(address1)],
+        `${deployer}.dispatcher-registry`,
+        "set-dispatcher",
+        [principalCV(address1), trueCV()],
         deployer,
       ).result,
     ).toBeOk(trueCV());
-    simnet.mineEmptyBlocks(100);
+
     expect(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
