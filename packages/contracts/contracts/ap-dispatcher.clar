@@ -25,6 +25,9 @@
 (define-public (dispatch (ap <ap-trait>)) 
     (begin 
         (asserts! (is-eq tx-sender OWNER) ERR-UNAUTHORIZED)
+        ;; This is going to be executed through the dispatcher process
+        ;; the contract itself is asset-less so even executing potentially
+        ;; malicious AP contracts should be safe
         (as-contract (contract-call? ap execute OWNER))
     ))
 
