@@ -1,3 +1,3 @@
-import reactConfig from "@repo/eslint-config/react";
+import library from "@repo/eslint-config/library";
 
-export default [...reactConfig];
+export default library;
