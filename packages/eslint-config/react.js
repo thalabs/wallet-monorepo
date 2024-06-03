@@ -1,5 +1,5 @@
 import reactRecommended from "eslint-plugin-react/configs/recommended.js";
-import library from "./library.js";
+import library from "./eslint.config.js";
 import reactHooks from "eslint-plugin-react-hooks";
 
 /**
