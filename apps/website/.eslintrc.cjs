@@ -1,4 +1,4 @@
 module.exports = {
-	root: true,
-	extends: ["@repo/eslint-config/react"]
+  extends: ["@repo/eslint-config/react"],
+  root: true,
 };

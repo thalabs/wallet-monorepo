@@ -6,7 +6,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "lint:fix": "turbo lint -- --fix",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "prettier . \"!apps/** !packages/** !tooling/**\" --check --cache --cache-location='node_modules/.cache/.prettiercache'",
+    "format:fix": "prettier . \"!apps/** !packages/** !tooling/**\" --write --cache --cache-location='node_modules/.cache/.prettiercache' --log-level=warn",
     "prepare": "husky",
     "commit": "git-cz"
   },
