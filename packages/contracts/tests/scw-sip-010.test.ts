@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { contract, getStxBalance, setExtension } from "./util";
 import {
+  type ClarityValue,
   boolCV,
   bufferCVFromString,
   contractPrincipalCV,
@@ -11,6 +11,8 @@ import {
   trueCV,
   uintCV,
 } from "@stacks/transactions";
+import { type ParsedTransactionResult } from "@hirosystems/clarinet-sdk";
+import { contract, getStxBalance, setExtension } from "./util";
 
 function transfer(
   tokenId: string,
@@ -19,7 +21,7 @@ function transfer(
   recipient: string,
   memo: string,
   caller: string,
-) {
+): ParsedTransactionResult {
   return simnet.callPublicFn(
     contract("scw-sip-010"),
     "transfer",
@@ -35,7 +37,7 @@ function transfer(
     caller,
   );
 }
-function chargeWallet() {
+function chargeWallet(): void {
   expect(
     simnet.callPublicFn(
       "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",
@@ -54,7 +56,7 @@ function setTokenWL(
   tokenId: `${string}.${string}`,
   state: boolean,
   sender: string,
-) {
+): ClarityValue {
   return simnet.callPublicFn(
     contract("scw-sip-010"),
     "set-token-wl",
@@ -66,7 +68,7 @@ function setTokenWL(
   ).result;
 }
 
-function getTokenWL(tokenId: `${string}.${string}`) {
+function getTokenWL(tokenId: `${string}.${string}`): ClarityValue {
   return simnet.callReadOnlyFn(
     contract("scw-sip-010"),
     "get-token-wl",
@@ -75,7 +77,9 @@ function getTokenWL(tokenId: `${string}.${string}`) {
   ).result;
 }
 const accounts = simnet.getAccounts();
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
 const deployer = accounts.get("deployer")!;
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
 const address1 = accounts.get("wallet_1")!;
 
 describe("sip-010 extension", () => {

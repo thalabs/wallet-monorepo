@@ -1,4 +1,4 @@
-[*.{tsx,ts}]
+[*.{tsx,ts,json}]
 indent_size = 2
 tab_width = 2
 indent_style = space
