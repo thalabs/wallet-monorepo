@@ -10,4 +10,4 @@ after = "pnpm prettier -w ./src/clarigen-types.ts"
 
 [docs]
 output = "docs"
-after = "npm run prettier -w ./docs"
+after = "pnpm prettier -w ./docs"
