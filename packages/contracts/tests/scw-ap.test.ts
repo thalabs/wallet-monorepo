@@ -14,8 +14,10 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { chargeWallet, setExtension, setTokenWL, getStxBalance } from "./util";
 
 const accounts = simnet.getAccounts();
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
 const address1 = accounts.get("wallet_1")!;
 
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
 const deployer = accounts.get("deployer")!;
 
 /*
