@@ -3,7 +3,6 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { accountsApi } from "./accounts";
 import { connectApi } from "./connect";
 
-
 // TODO: Refactor into a store own package.
 //  This store acts as a global for all upcoming reducers (e.g. database, network, etc.)
 export const store = configureStore({
