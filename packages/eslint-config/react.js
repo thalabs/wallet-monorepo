@@ -1,25 +1,27 @@
-/*
- * This is a custom ESLint configuration for use a library
- * that utilizes React.
- *
- * This config extends the Vercel Engineering Style Guide.
- * For more information, see https://github.com/vercel/style-guide
- *
+import reactRecommended from "eslint-plugin-react/configs/recommended.js";
+import library from "./eslint.config.js";
+import reactHooks from "eslint-plugin-react-hooks";
+
+/**
+ * @type {import("eslint").Linter.FlatConfig}
  */
-
-module.exports = {
-  extends: [
-    "./library.js",
-    "@vercel/style-guide/eslint/browser",
-    "@vercel/style-guide/eslint/react",
-  ].map(require.resolve),
-  globals: {
-    JSX: true,
-    React: true,
+export default [
+  ...library,
+  reactRecommended,
+  {
+    plugins: {
+      "react-hooks": reactHooks,
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      "react/jsx-uses-react": "off",
+      "react/react-in-jsx-scope": "off",
+      "unicorn/filename-case": "off",
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
   },
-
-  // add rules configurations here
-  rules: {
-    "unicorn/filename-case": "off",
-  },
-};
+];

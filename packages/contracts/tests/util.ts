@@ -2,16 +2,22 @@ import {
   contractPrincipalCV,
   boolCV,
   standardPrincipalCV,
-  UIntCV,
-  ResponseOkCV,
+  type UIntCV,
+  type ResponseOkCV,
+  type ClarityValue,
 } from "@stacks/transactions";
 
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
 const deployer = simnet.getAccounts().get("deployer")!;
-export function contract(name: string) {
+export function contract(name: string): string {
   return `${deployer}.${name}`;
 }
 
-export function setExtension(ext: string, state: boolean, sender = deployer) {
+export function setExtension(
+  ext: string,
+  state: boolean,
+  sender = deployer,
+): ClarityValue {
   return simnet.callPublicFn(
     contract("wally-main"),
     "set-extension",
@@ -19,7 +25,7 @@ export function setExtension(ext: string, state: boolean, sender = deployer) {
     sender,
   ).result;
 }
-export function isExtension(ext: string) {
+export function isExtension(ext: string): ClarityValue {
   return simnet.callReadOnlyFn(
     contract("wally-main"),
     "is-extension",
@@ -27,7 +33,7 @@ export function isExtension(ext: string) {
     deployer,
   ).result;
 }
-export function isOwnerOrExtension(sender: string) {
+export function isOwnerOrExtension(sender: string): ClarityValue {
   return simnet.callPublicFn(
     contract("scw-sip-010"),
     "is-owner-or-extension",
@@ -36,7 +42,7 @@ export function isOwnerOrExtension(sender: string) {
   ).result;
 }
 
-export function getStxBalance(address: string) {
+export function getStxBalance(address: string): bigint {
   return (
     simnet.callReadOnlyFn(
       "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",

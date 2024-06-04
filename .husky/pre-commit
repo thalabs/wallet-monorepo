@@ -1,1 +1,1 @@
-# add pnpm lint
+pnpm run lint
