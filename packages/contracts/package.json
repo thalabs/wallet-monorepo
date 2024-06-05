@@ -9,11 +9,15 @@
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
+    "build": "clarigen",
+    "docs": "clarigen docs",
     "test": "vitest run",
     "test:report": "vitest run -- --coverage --costs",
     "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm run test:report\""
   },
   "dependencies": {
+    "@clarigen/cli": "^2.0.6",
+    "@clarigen/core": "^2.0.6",
     "@hirosystems/clarinet-sdk": "^2.6.0",
     "@hirosystems/clarinet-sdk-wasm": "^2.6.0",
     "@repo/eslint-config": "workspace:*",

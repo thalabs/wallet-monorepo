@@ -1,0 +1,13 @@
+# For more information on Clarigen configuration, see:
+# https://www.clarigen.dev/docs/configuration
+
+# Clarinet config file
+clarinet = "./Clarinet.toml"
+
+[types]
+output = "src/clarigen-types.ts"
+after = "pnpm prettier -w ./src/clarigen-types.ts"
+
+[docs]
+output = "docs"
+after = "pnpm prettier -w ./docs"
