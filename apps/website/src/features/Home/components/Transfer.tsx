@@ -8,7 +8,7 @@ import {
   uintCV,
 } from "@stacks/transactions";
 import { useMemo, useState } from "react";
-import { network } from "../../../services/stacks-apis";
+import { network } from "@repo/stacks";
 
 export function TransferTokens({ address }: { address: string }): JSX.Element {
   const { doContractCall } = useConnect();

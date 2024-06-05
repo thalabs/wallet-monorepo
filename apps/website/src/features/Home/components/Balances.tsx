@@ -1,4 +1,4 @@
-import { useGetBalancesQuery } from "../../../services/accounts";
+import { useGetBalancesQuery } from "@repo/stacks";
 
 export function Balances({ address }: { address: string }): JSX.Element {
   const { data, isLoading } = useGetBalancesQuery(address);

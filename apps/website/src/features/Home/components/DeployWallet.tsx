@@ -1,7 +1,7 @@
 import { useConnect } from "@stacks/connect-react";
 import { useCallback } from "react";
 import { contractPrincipalCV, trueCV } from "@stacks/transactions";
-import { network } from "../../../services/stacks-apis";
+import { network, useCallContractMutation } from "@repo/stacks";
 import { userSession } from "../../../stacks/auth";
 
 const walletCode = `
@@ -153,10 +153,13 @@ interface UserData {
     };
   };
 }
+
 export function DeployWallet(): JSX.Element {
-  const { doContractCall, doContractDeploy } = useConnect();
+  const { doContractDeploy } = useConnect();
   const userAddress: string = (userSession.loadUserData() as UserData).profile
     .stxAddress.testnet;
+
+  const [doContractCall] = useCallContractMutation();
   const deploy = useCallback(() => {
     // TODO: move logic out of UI
     void doContractDeploy({

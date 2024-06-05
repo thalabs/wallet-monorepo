@@ -1,6 +1,6 @@
 import { useConnect } from "@stacks/connect-react";
 import { useCallback } from "react";
-import { network } from "../../../services/stacks-apis";
+import { network } from "@repo/stacks";
 
 export function FundWallet({ address }: { address: string }): JSX.Element {
   const { doSTXTransfer } = useConnect();

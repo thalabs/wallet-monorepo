@@ -1,0 +1,21 @@
+{
+  "name": "@repo/stacks",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "echo 'Add test script here'",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "2.2.5",
+    "@stacks/blockchain-api-client": "7.10.0",
+    "@stacks/connect": "7.7.1",
+    "@stacks/network": "6.13.0",
+    "@stacks/stacks-blockchain-api-types": "7.10.0"
+  }
+}

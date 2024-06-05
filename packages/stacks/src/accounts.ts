@@ -4,6 +4,7 @@ import { type AddressBalanceResponse } from "@stacks/stacks-blockchain-api-types
 import { stacksApiConfig } from "./stacks-apis";
 
 const api = new AccountsApi(stacksApiConfig);
+
 export const accountsApi = createApi({
   baseQuery: () => {
     return { data: [] };
