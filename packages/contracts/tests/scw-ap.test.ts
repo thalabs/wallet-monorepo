@@ -11,7 +11,13 @@ import {
   uintCV,
 } from "@stacks/transactions";
 import { beforeEach, describe, expect, it } from "vitest";
-import { chargeWallet, setExtension, setTokenWL, getStxBalance } from "./util";
+import {
+  chargeWallet,
+  setExtension,
+  setTokenWL,
+  getStxBalance,
+  getBlockTimeForUnixTime,
+} from "./util";
 
 const accounts = simnet.getAccounts();
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
@@ -117,8 +123,9 @@ describe("Automatic payment", () => {
       [],
       deployer,
     ).result as ResponseOkCV<TupleCV<{ cadence: UIntCV }>>;
-
-    simnet.mineEmptyBlocks(Number(result.value.data.cadence.value));
+    simnet.mineEmptyBlocks(
+      getBlockTimeForUnixTime(result.value.data.cadence.value),
+    );
     expect(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
@@ -156,7 +163,11 @@ describe("Automatic payment", () => {
       TupleCV<{ cadence: UIntCV; "expires-at": SomeCV<UIntCV> }>
     >;
 
-    simnet.mineEmptyBlocks(Number(result.value.data["expires-at"].value.value));
+    simnet.mineEmptyBlocks(
+      getBlockTimeForUnixTime(
+        result.value.data["expires-at"].value.value - simnet.getBlockTime(),
+      ),
+    );
 
     expect(
       simnet.callPublicFn(
@@ -175,7 +186,7 @@ describe("Automatic payment", () => {
       deployer,
     ).result as ResponseOkCV<TupleCV<{ "expires-at": SomeCV<UIntCV> }>>;
     const expiresAt = result.value.data["expires-at"].value.value;
-    const newExpiresAt = expiresAt + 1000n;
+    const newExpiresAt = expiresAt + 1000n * 30n * 60n;
     expect(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
@@ -192,8 +203,9 @@ describe("Automatic payment", () => {
         deployer,
       ).result,
     ).toBeErr(uintCV(402));
-
-    simnet.mineEmptyBlocks(Number(expiresAt));
+    simnet.mineEmptyBlocks(
+      getBlockTimeForUnixTime(expiresAt - simnet.getBlockTime()),
+    );
     expect(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
@@ -234,7 +246,7 @@ describe("Automatic payment", () => {
       ).result,
     ).toBeOk(trueCV());
 
-    simnet.mineEmptyBlocks(Number(1000));
+    simnet.mineEmptyBlocks(1000);
     expect(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,

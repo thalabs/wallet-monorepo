@@ -116,3 +116,8 @@ export function setTokenWL(
     sender,
   ).result;
 }
+
+export function getBlockTimeForUnixTime(unixTime: bigint) {
+  const SIMNET_BLOCK_TIME = 30n * 60n;
+  return Number(unixTime / SIMNET_BLOCK_TIME);
+}
