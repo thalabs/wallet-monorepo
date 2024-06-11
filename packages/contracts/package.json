@@ -18,6 +18,7 @@
   "dependencies": {
     "@clarigen/cli": "^2.0.6",
     "@clarigen/core": "^2.0.6",
+    "@clarigen/test": "^2.0.6",
     "@hirosystems/clarinet-sdk": "^2.6.0",
     "@hirosystems/clarinet-sdk-wasm": "^2.6.0",
     "@repo/eslint-config": "workspace:*",

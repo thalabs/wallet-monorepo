@@ -20,7 +20,7 @@
 ;;
 
 ;; data maps
-;;
+;; TODO: add event unix time when specfic dispatcher is added?
 (define-map dispatchers principal bool)
 (map-set dispatchers .ap-dispatcher true)
 ;; public functions

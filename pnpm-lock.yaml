@@ -75,6 +75,9 @@ importers:
       '@clarigen/core':
         specifier: ^2.0.6
         version: 2.0.6
+      '@clarigen/test':
+        specifier: ^2.0.6
+        version: 2.0.6(@types/node@20.12.13)
       '@hirosystems/clarinet-sdk':
         specifier: ^2.6.0
         version: 2.6.0(@types/node@20.12.13)
@@ -190,6 +193,10 @@ packages:
 
   '@clarigen/core@2.0.6':
     resolution: {integrity: sha512-+1seEHh8Gfk+obCm/La0SjzVgbNeCM6KrS2sEwPHMhPfkvSglegFJ26QravO762Jd5ZX34WPeoFCnJsL3R/5/A==}
+    engines: {node: '>=10'}
+
+  '@clarigen/test@2.0.6':
+    resolution: {integrity: sha512-A7DgPEP+ZODAY1kH9Mf2PnL0sK1bOEeLRE5UVokQmE1TzzxbtuKQG+YDUcv9IkY5SukzgsHjSIJUExOcoMC53Q==}
     engines: {node: '>=10'}
 
   '@commitlint/config-validator@19.0.3':
@@ -577,6 +584,9 @@ packages:
 
   '@stacks/stacks-blockchain-api-types@7.10.0':
     resolution: {integrity: sha512-LfDishvEsmDJ6OXfgohkOIIsLTwvKVn3NKELaWTaZndN2Pucsk3Uz8NPDhVM5Ij1rGjFGT2bwcHNoGE7k3GhxQ==}
+
+  '@stacks/transactions@6.13.0':
+    resolution: {integrity: sha512-xrx09qsXL/tWCkvAArzsFQqtZKDXyedjdVB9uX8xw+cQCi3xZ7r5MHMKzvEsTgJz3EO+MkQBXcvI1uzfuoqhcA==}
 
   '@stacks/transactions@6.13.1':
     resolution: {integrity: sha512-PWw2I+2Fj3CaFYQIoVcqQN6E2qGHNhFv03nuR0CxMq0sx8stPgYZbdzUlnlBcJQdsFiHrw3sPeqnXDZt+Hg5YQ==}
@@ -2968,6 +2978,30 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+  '@clarigen/test@2.0.6(@types/node@20.12.13)':
+    dependencies:
+      '@clarigen/core': 2.0.6
+      '@hirosystems/clarinet-sdk': 2.6.0(@types/node@20.12.13)
+      '@hirosystems/clarinet-sdk-wasm': 2.6.0
+      '@stacks/transactions': 6.13.0
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/node'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - bufferutil
+      - encoding
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+
   '@commitlint/config-validator@19.0.3':
     dependencies:
       '@commitlint/types': 19.0.3
@@ -3351,6 +3385,17 @@ snapshots:
   '@stacks/stacks-blockchain-api-types@0.61.0': {}
 
   '@stacks/stacks-blockchain-api-types@7.10.0': {}
+
+  '@stacks/transactions@6.13.0':
+    dependencies:
+      '@noble/hashes': 1.1.5
+      '@noble/secp256k1': 1.7.1
+      '@stacks/common': 6.13.0
+      '@stacks/network': 6.13.0
+      c32check: 2.0.0
+      lodash.clonedeep: 4.5.0
+    transitivePeerDependencies:
+      - encoding
 
   '@stacks/transactions@6.13.1':
     dependencies:

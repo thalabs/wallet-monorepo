@@ -47,6 +47,7 @@
         ) ERR-UNAUTHORIZED)
         (asserts! (or 
             (>= burn-block-height (+ (var-get last-executed-at) CADENCE))
+            ;; FIXME: should we have a first execution?
             (is-eq u0 (var-get last-executed-at))
         ) ERR-COOLDOWN)
         (asserts! (or (is-none (var-get expires-at)) (< burn-block-height (unwrap-panic (var-get expires-at)))) ERR-AP-EXPIRED)

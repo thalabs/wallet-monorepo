@@ -1,13 +1,20 @@
-import { contractPrincipalCV, trueCV, uintCV } from "@stacks/transactions";
+import {
+  contractPrincipalCV,
+  stringAsciiCV,
+  tupleCV,
+  uintCV,
+} from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
 import { chargeWallet, getStxBalance, setExtension, setTokenWL } from "./util";
+import { CoreNodeEventType, projectFactory } from "@clarigen/core";
+import { filterEvents, txErr, txOk } from "@clarigen/test";
 
-const accounts = simnet.getAccounts();
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
-const address1 = accounts.get("wallet_1")!;
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
-const deployer = accounts.get("deployer")!;
+import { project, accounts } from "../src/clarigen-types";
 
+const address1 = accounts.wallet_1.address;
+
+const deployer = accounts.deployer.address;
+const { apDispatcher } = projectFactory(project, "simnet");
 /*
   The test below is an example. To learn more, read the testing documentation here:
   https://docs.hiro.so/clarinet/feature-guides/test-contract-with-clarinet-sdk
@@ -25,22 +32,24 @@ describe("automatic payment dispatcher", () => {
     );
     const beforeBalance = getStxBalance(deployer);
     expect(
-      simnet.callPublicFn(
-        `${deployer}.ap-dispatcher`,
-        "dispatch",
-        [contractPrincipalCV(deployer, "scw-ap")],
-        address1,
-      ).result,
+      txErr(apDispatcher.dispatch({ ap: `${deployer}.scw-ap` }), address1)
+        .result,
     ).toBeErr(uintCV(401));
+    const { events, value } = txOk(
+      apDispatcher.dispatch({ ap: `${deployer}.scw-ap` }),
+      deployer,
+    );
+    expect(value).toBe(true);
 
-    expect(
-      simnet.callPublicFn(
-        `${deployer}.ap-dispatcher`,
-        "dispatch",
-        [contractPrincipalCV(deployer, "scw-ap")],
-        deployer,
-      ).result,
-    ).toBeOk(trueCV());
+    const printEvents = filterEvents(events, CoreNodeEventType.ContractEvent);
+    expect(printEvents[0].data.value).toEqual(
+      tupleCV({
+        event: stringAsciiCV("dispatch-successful"),
+        payload: tupleCV({
+          ap: contractPrincipalCV(deployer, "scw-ap"),
+        }),
+      }),
+    );
     const afterBalance = getStxBalance(deployer);
     expect(afterBalance - beforeBalance).toEqual(500_000n);
   });
