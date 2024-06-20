@@ -15,6 +15,7 @@ export const TEST_ADDRESS = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ";
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
 const deployer = simnet.getAccounts().get("deployer")!;
+
 export function contract(name: string): string {
   return `${deployer}.${name}`;
 }
@@ -31,6 +32,7 @@ export function setExtension(
     sender,
   ).result;
 }
+
 export function isExtension(ext: string): ClarityValue {
   return simnet.callReadOnlyFn(
     contract("wally-main"),
@@ -39,6 +41,7 @@ export function isExtension(ext: string): ClarityValue {
     deployer,
   ).result;
 }
+
 export function isOwnerOrExtension(sender: string): ClarityValue {
   return simnet.callPublicFn(
     contract("scw-sip-010"),
@@ -86,6 +89,7 @@ export function transfer(
     caller,
   );
 }
+
 export function chargeWallet({ amount = 10 } = {}) {
   return simnet.callPublicFn(
     `${TEST_ADDRESS}.wstx`,
@@ -99,6 +103,7 @@ export function chargeWallet({ amount = 10 } = {}) {
     deployer,
   ).result;
 }
+
 export function setTokenWL(
   tokenId: `${string}.${string}`,
   state: boolean,
@@ -118,4 +123,11 @@ export function setTokenWL(
 export function getBlockTimeForUnixTime(unixTime: bigint) {
   const SIMNET_BLOCK_TIME = 30n * 60n;
   return Number(unixTime / SIMNET_BLOCK_TIME);
+}
+
+export function setupTest() {
+  chargeWallet({ amount: 1000_000_000 });
+  setExtension("scw-sip-010", true, deployer);
+  setExtension("scw-ap", true, deployer);
+  setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer);
 }

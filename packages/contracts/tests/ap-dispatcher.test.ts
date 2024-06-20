@@ -1,18 +1,11 @@
 import {
   contractPrincipalCV,
   stringAsciiCV,
-  trueCV,
   tupleCV,
   uintCV,
 } from "@stacks/transactions";
-import { describe, expect, it } from "vitest";
-import {
-  chargeWallet,
-  getStxBalance,
-  setExtension,
-  setTokenWL,
-  TEST_ADDRESS,
-} from "./util";
+import { beforeEach, describe, expect, it } from "vitest";
+import { getStxBalance, setupTest } from "./util";
 import { CoreNodeEventType, projectFactory } from "@clarigen/core";
 import { filterEvents, txErr, txOk } from "@clarigen/test";
 
@@ -28,21 +21,28 @@ const { apDispatcher } = projectFactory(project, "simnet");
 */
 
 describe("automatic payment dispatcher", () => {
-  it("Ensures that only the owner can dispatch an automatic payment", () => {
-    expect(chargeWallet({ amount: 1000_000_000 })).toBeOk(trueCV());
-    setExtension("scw-sip-010", true, deployer);
-    setExtension("scw-ap", true, deployer);
-    setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer);
-    const beforeBalance = getStxBalance(deployer);
+  beforeEach(setupTest);
+
+  it("should not allow unauthorized users to dispatch", () => {
     expect(
       txErr(apDispatcher.dispatch({ ap: `${deployer}.scw-ap` }), address1)
         .result,
     ).toBeErr(uintCV(401));
-    const { events, value } = txOk(
+  });
+
+  it("should allow only the owner to dispatch an automatic payment", () => {
+    const { value } = txOk(
       apDispatcher.dispatch({ ap: `${deployer}.scw-ap` }),
       deployer,
     );
     expect(value).toBe(true);
+  });
+
+  it("should emit the correct event on successful dispatch", () => {
+    const { events } = txOk(
+      apDispatcher.dispatch({ ap: `${deployer}.scw-ap` }),
+      deployer,
+    );
 
     const printEvents = filterEvents(events, CoreNodeEventType.ContractEvent);
     expect(printEvents[0].data.value).toEqual(
@@ -53,7 +53,13 @@ describe("automatic payment dispatcher", () => {
         }),
       }),
     );
+  });
+
+  it("should deduct fees from the dispatcher's balance on dispatch", () => {
+    const beforeBalance = getStxBalance(deployer);
+    txOk(apDispatcher.dispatch({ ap: `${deployer}.scw-ap` }), deployer);
     const afterBalance = getStxBalance(deployer);
+
     expect(afterBalance - beforeBalance).toEqual(500_000n);
   });
 });
