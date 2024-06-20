@@ -1,6 +1,7 @@
 import {
   contractPrincipalCV,
   stringAsciiCV,
+  trueCV,
   tupleCV,
   uintCV,
 } from "@stacks/transactions";
@@ -28,7 +29,7 @@ const { apDispatcher } = projectFactory(project, "simnet");
 
 describe("automatic payment dispatcher", () => {
   it("Ensures that only the owner can dispatch an automatic payment", () => {
-    chargeWallet({ amount: 1000_000_000 });
+    expect(chargeWallet({ amount: 1000_000_000 })).toBeOk(trueCV());
     setExtension("scw-sip-010", true, deployer);
     setExtension("scw-ap", true, deployer);
     setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer);

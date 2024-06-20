@@ -7,11 +7,9 @@ import {
   bufferCVFromString,
   noneCV,
   someCV,
-  trueCV,
   uintCV,
   ClarityValue,
 } from "@stacks/transactions";
-import { expect } from "vitest";
 
 export const TEST_ADDRESS = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ";
 
@@ -89,19 +87,17 @@ export function transfer(
   );
 }
 export function chargeWallet({ amount = 10 } = {}) {
-  expect(
-    simnet.callPublicFn(
-      `${TEST_ADDRESS}.wstx`,
-      "transfer",
-      [
-        uintCV(amount),
-        standardPrincipalCV(deployer),
-        contractPrincipalCV(deployer, "scw-sip-010"),
-        noneCV(),
-      ],
-      deployer,
-    ).result,
-  ).toBeOk(trueCV());
+  return simnet.callPublicFn(
+    `${TEST_ADDRESS}.wstx`,
+    "transfer",
+    [
+      uintCV(amount),
+      standardPrincipalCV(deployer),
+      contractPrincipalCV(deployer, "scw-sip-010"),
+      noneCV(),
+    ],
+    deployer,
+  ).result;
 }
 export function setTokenWL(
   tokenId: `${string}.${string}`,

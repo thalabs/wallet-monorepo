@@ -32,7 +32,7 @@ const deployer = accounts.get("deployer")!;
   https://docs.hiro.so/clarinet/feature-guides/test-contract-with-clarinet-sdk
 */
 const setupTest = () => {
-  chargeWallet({ amount: 1000_000_000 });
+  expect(chargeWallet({ amount: 1000_000_000 })).toBeOk(trueCV());
   setExtension("scw-sip-010", true, deployer);
   setExtension("scw-ap", true, deployer);
   setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer);

@@ -36,7 +36,7 @@ describe("sip-010 extension", () => {
     expect(simnet.blockHeight).toBeDefined();
   });
   it("ensures that only owner can change a token's whitelist status", () => {
-    chargeWallet();
+    expect(chargeWallet({ amount: 1000_000_000 })).toBeOk(trueCV());
     expect(setExtension("scw-sip-010", true, deployer)).toBeOk(trueCV());
     expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, address1)).toBeErr(
       uintCV(401),
@@ -54,7 +54,7 @@ describe("sip-010 extension", () => {
   });
 
   it("ensures extension can transfer only be used when it's enabled by owner and token is wl'ed", () => {
-    chargeWallet();
+    expect(chargeWallet({ amount: 1000_000_000 })).toBeOk(trueCV());
     expect(
       transfer("wstx", 10, contract("scw-sip-010"), address1, "test", deployer)
         .result,
@@ -101,7 +101,7 @@ describe("sip-010 extension", () => {
   it("ensures extension can be called only by owner and other extensions", () => {
     setExtension("scw-sip-010", true, deployer);
     expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer)).toBeOk(trueCV());
-    chargeWallet();
+    expect(chargeWallet({ amount: 1000_000_000 })).toBeOk(trueCV());
     expect(
       transfer("wstx", 10, contract("scw-sip-010"), address1, "test", address1)
         .result,
@@ -133,7 +133,7 @@ describe("sip-010 extension", () => {
 
     setExtension("scw-sip-010", true, deployer);
     expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer)).toBeOk(trueCV());
-    chargeWallet();
+    expect(chargeWallet({ amount: 1000_000_000 })).toBeOk(trueCV());
     expect(
       transfer("wstx", 10, contract("scw-sip-010"), address1, "test", deployer)
         .result,
