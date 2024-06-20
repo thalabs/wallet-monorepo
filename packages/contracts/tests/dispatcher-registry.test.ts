@@ -21,7 +21,7 @@ const deployer = accounts.get("deployer")!;
 */
 
 describe("dispatcher registry", () => {
-  it("ensures our dispatcher is enabled by default", () => {
+  it("should enable our dispatcher by default", () => {
     expect(
       simnet.callReadOnlyFn(
         `${deployer}.dispatcher-registry`,
@@ -31,7 +31,8 @@ describe("dispatcher registry", () => {
       ).result,
     ).toBeOk(trueCV());
   });
-  it("ensures only owner can add and remove dispatchers from the whitelist", async () => {
+
+  it("should only allow the owner to add dispatchers", () => {
     expect(
       simnet.callPublicFn(
         `${deployer}.dispatcher-registry`,
@@ -40,40 +41,25 @@ describe("dispatcher registry", () => {
         address1,
       ).result,
     ).toBeErr(uintCV(401));
+  });
+
+  it("should indicate that a dispatcher is not set if it wasn't set before", () => {
+    expect(
+      simnet.callReadOnlyFn(
+        `${deployer}.dispatcher-registry`,
+        "is-dispatcher",
+        [principalCV(address1)],
+        deployer,
+      ).result,
+    ).toBeOk(falseCV());
+  });
+
+  it("should correctly set the dispatcher when authorized", () => {
     expect(
       simnet.callPublicFn(
         `${deployer}.dispatcher-registry`,
         "set-dispatcher",
         [principalCV(address1), trueCV()],
-        deployer,
-      ).result,
-    ).toBeOk(trueCV());
-
-    expect(
-      simnet.callPublicFn(
-        `${deployer}.dispatcher-registry`,
-        "set-dispatcher",
-        [principalCV(address2), trueCV()],
-        deployer,
-      ).result,
-    ).toBeOk(trueCV());
-
-    [principalCV(address1), principalCV(address2)].forEach((dispatcher) =>
-      expect(
-        simnet.callReadOnlyFn(
-          `${deployer}.dispatcher-registry`,
-          "is-dispatcher",
-          [dispatcher],
-          deployer,
-        ).result,
-      ).toBeOk(trueCV()),
-    );
-
-    expect(
-      simnet.callPublicFn(
-        `${deployer}.dispatcher-registry`,
-        "set-dispatcher",
-        [principalCV(address1), falseCV()],
         deployer,
       ).result,
     ).toBeOk(trueCV());
@@ -85,6 +71,47 @@ describe("dispatcher registry", () => {
         [principalCV(address1)],
         deployer,
       ).result,
+    ).toBeOk(trueCV());
+  });
+
+  it("should indicate that a dispatcher is not set after it has been removed", () => {
+    simnet.callPublicFn(
+      `${deployer}.dispatcher-registry`,
+      "set-dispatcher",
+      [principalCV(address1), falseCV()],
+      deployer,
+    ).result;
+
+    expect(
+      simnet.callReadOnlyFn(
+        `${deployer}.dispatcher-registry`,
+        "is-dispatcher",
+        [principalCV(address1)],
+        deployer,
+      ).result,
     ).toBeOk(falseCV());
+  });
+
+  it("should allow the owner to add multiple dispatchers", () => {
+    const dispatchers = [principalCV(address1), principalCV(address2)];
+    dispatchers.forEach((dispatcher) => {
+      simnet.callPublicFn(
+        `${deployer}.dispatcher-registry`,
+        "set-dispatcher",
+        [dispatcher, trueCV()],
+        deployer,
+      ).result;
+    });
+
+    dispatchers.forEach((dispatcher) => {
+      expect(
+        simnet.callReadOnlyFn(
+          `${deployer}.dispatcher-registry`,
+          "is-dispatcher",
+          [dispatcher],
+          deployer,
+        ).result,
+      ).toBeOk(trueCV());
+    });
   });
 });
