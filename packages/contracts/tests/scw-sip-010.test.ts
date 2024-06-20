@@ -13,6 +13,7 @@ import {
   getStxBalance,
   setExtension,
   setTokenWL,
+  TEST_ADDRESS,
   transfer,
 } from "./util";
 
@@ -37,37 +38,19 @@ describe("sip-010 extension", () => {
   it("ensures that only owner can change a token's whitelist status", () => {
     chargeWallet();
     expect(setExtension("scw-sip-010", true, deployer)).toBeOk(trueCV());
-    expect(
-      setTokenWL(
-        "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",
-        true,
-        address1,
-      ),
-    ).toBeErr(uintCV(401));
+    expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, address1)).toBeErr(
+      uintCV(401),
+    );
 
-    expect(
-      setTokenWL(
-        "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",
-        true,
-        deployer,
-      ),
-    ).toBeOk(trueCV());
+    expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer)).toBeOk(trueCV());
 
-    expect(getTokenWL("SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx")).toBeOk(
+    expect(getTokenWL(`${TEST_ADDRESS}.wstx`)).toBeOk(trueCV());
+
+    expect(setTokenWL(`${TEST_ADDRESS}.wstx`, false, deployer)).toBeOk(
       trueCV(),
     );
 
-    expect(
-      setTokenWL(
-        "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",
-        false,
-        deployer,
-      ),
-    ).toBeOk(trueCV());
-
-    expect(getTokenWL("SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx")).toBeOk(
-      falseCV(),
-    );
+    expect(getTokenWL(`${TEST_ADDRESS}.wstx`)).toBeOk(falseCV());
   });
 
   it("ensures extension can transfer only be used when it's enabled by owner and token is wl'ed", () => {
@@ -83,13 +66,7 @@ describe("sip-010 extension", () => {
         .result,
     ).toBeErr(uintCV(402));
 
-    expect(
-      setTokenWL(
-        "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",
-        true,
-        deployer,
-      ),
-    ).toBeOk(trueCV());
+    expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer)).toBeOk(trueCV());
     const successFulTransfer = transfer(
       "wstx",
       10,
@@ -105,13 +82,9 @@ describe("sip-010 extension", () => {
     expect(printEvent.event).toBe("print_event");
     expect(printEvent.data.value).toStrictEqual(bufferCVFromString("test"));
 
-    expect(
-      setTokenWL(
-        "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",
-        false,
-        deployer,
-      ),
-    ).toBeOk(trueCV());
+    expect(setTokenWL(`${TEST_ADDRESS}.wstx`, false, deployer)).toBeOk(
+      trueCV(),
+    );
     expect(
       transfer("wstx", 10, contract("scw-sip-010"), address1, "test", deployer)
         .result,
@@ -127,13 +100,7 @@ describe("sip-010 extension", () => {
   });
   it("ensures extension can be called only by owner and other extensions", () => {
     setExtension("scw-sip-010", true, deployer);
-    expect(
-      setTokenWL(
-        "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",
-        true,
-        deployer,
-      ),
-    ).toBeOk(trueCV());
+    expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer)).toBeOk(trueCV());
     chargeWallet();
     expect(
       transfer("wstx", 10, contract("scw-sip-010"), address1, "test", address1)
@@ -165,13 +132,7 @@ describe("sip-010 extension", () => {
     const deployerStxBalance = getStxBalance(deployer);
 
     setExtension("scw-sip-010", true, deployer);
-    expect(
-      setTokenWL(
-        "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",
-        true,
-        deployer,
-      ),
-    ).toBeOk(trueCV());
+    expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer)).toBeOk(trueCV());
     chargeWallet();
     expect(
       transfer("wstx", 10, contract("scw-sip-010"), address1, "test", deployer)

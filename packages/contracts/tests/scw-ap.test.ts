@@ -17,6 +17,7 @@ import {
   setTokenWL,
   getStxBalance,
   getBlockTimeForUnixTime,
+  TEST_ADDRESS,
 } from "./util";
 
 const accounts = simnet.getAccounts();
@@ -34,7 +35,7 @@ const setupTest = () => {
   chargeWallet({ amount: 1000_000_000 });
   setExtension("scw-sip-010", true, deployer);
   setExtension("scw-ap", true, deployer);
-  setTokenWL("SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx", true, deployer);
+  setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer);
 };
 describe("Automatic payment", () => {
   beforeEach(setupTest);

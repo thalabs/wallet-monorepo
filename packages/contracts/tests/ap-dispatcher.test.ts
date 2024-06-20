@@ -5,7 +5,13 @@ import {
   uintCV,
 } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
-import { chargeWallet, getStxBalance, setExtension, setTokenWL } from "./util";
+import {
+  chargeWallet,
+  getStxBalance,
+  setExtension,
+  setTokenWL,
+  TEST_ADDRESS,
+} from "./util";
 import { CoreNodeEventType, projectFactory } from "@clarigen/core";
 import { filterEvents, txErr, txOk } from "@clarigen/test";
 
@@ -25,11 +31,7 @@ describe("automatic payment dispatcher", () => {
     chargeWallet({ amount: 1000_000_000 });
     setExtension("scw-sip-010", true, deployer);
     setExtension("scw-ap", true, deployer);
-    setTokenWL(
-      "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",
-      true,
-      deployer,
-    );
+    setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer);
     const beforeBalance = getStxBalance(deployer);
     expect(
       txErr(apDispatcher.dispatch({ ap: `${deployer}.scw-ap` }), address1)

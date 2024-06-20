@@ -13,6 +13,8 @@ import {
 } from "@stacks/transactions";
 import { expect } from "vitest";
 
+export const TEST_ADDRESS = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ";
+
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
 const deployer = simnet.getAccounts().get("deployer")!;
 export function contract(name: string): string {
@@ -51,7 +53,7 @@ export function isOwnerOrExtension(sender: string): ClarityValue {
 export function getStxBalance(address: string): bigint {
   return (
     simnet.callReadOnlyFn(
-      "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",
+      `${TEST_ADDRESS}.wstx`,
       "get-balance",
       [
         address.includes(".")
@@ -75,7 +77,7 @@ export function transfer(
     contract("scw-sip-010"),
     "transfer",
     [
-      contractPrincipalCV("SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ", tokenId),
+      contractPrincipalCV(TEST_ADDRESS, tokenId),
       uintCV(amount),
       sender.includes(".")
         ? contractPrincipalCV(...(sender.split(".") as [string, string]))
@@ -89,7 +91,7 @@ export function transfer(
 export function chargeWallet({ amount = 10 } = {}) {
   expect(
     simnet.callPublicFn(
-      "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx",
+      `${TEST_ADDRESS}.wstx`,
       "transfer",
       [
         uintCV(amount),
