@@ -133,7 +133,7 @@ describe("sip-010 extension", () => {
 
     setExtension("scw-sip-010", true, deployer);
     expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer)).toBeOk(trueCV());
-    expect(chargeWallet({ amount: 1000_000_000 })).toBeOk(trueCV());
+    expect(chargeWallet({ amount: 10 })).toBeOk(trueCV());
     expect(
       transfer("wstx", 10, contract("scw-sip-010"), address1, "test", deployer)
         .result,
