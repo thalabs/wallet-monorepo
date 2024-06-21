@@ -48,23 +48,47 @@ genesis:
 plan:
   batches:
     - id: 0
+      transactions: []
+      epoch: "2.0"
+    - id: 1
+      transactions: []
+      epoch: "2.05"
+    - id: 2
       transactions:
         - emulated-contract-publish:
             contract-name: sip-010-trait-ft-standard
             emulated-sender: SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE
             path: "./.cache/requirements/SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard.clar"
             clarity-version: 1
-      epoch: "2.0"
-    - id: 1
-      transactions:
         - emulated-contract-publish:
             contract-name: wstx
             emulated-sender: SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ
             path: "./.cache/requirements/SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx.clar"
             clarity-version: 1
-      epoch: "2.05"
-    - id: 2
+      epoch: "2.1"
+    - id: 3
+      transactions: []
+      epoch: "2.1"
+    - id: 4
+      transactions: []
+      epoch: "2.1"
+    - id: 5
       transactions:
+        - emulated-contract-publish:
+            contract-name: ap-trait
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/traits/ap-trait.clar
+            clarity-version: 2
+        - emulated-contract-publish:
+            contract-name: ap-dispatcher
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/ap-dispatcher.clar
+            clarity-version: 2
+        - emulated-contract-publish:
+            contract-name: dispatcher-registry
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/extensions/dispatcher-registry.clar
+            clarity-version: 2
         - emulated-contract-publish:
             contract-name: wally-main
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
@@ -80,4 +104,18 @@ plan:
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/extensions/dummy-caller-ext.clar
             clarity-version: 2
+        - emulated-contract-publish:
+            contract-name: scw-ap
+            emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+            path: contracts/extensions/scw-ap.clar
+            clarity-version: 2
+      epoch: "2.5"
+    - id: 6
+      transactions: []
+      epoch: "2.5"
+    - id: 7
+      transactions: []
+      epoch: "2.5"
+    - id: 8
+      transactions: []
       epoch: "2.5"

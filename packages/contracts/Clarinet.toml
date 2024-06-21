@@ -10,13 +10,28 @@ contract_id = 'SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ.wstx'
 
 [[project.requirements]]
 contract_id = 'SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sip-010-trait-ft-standard'
+[contracts.ap-dispatcher]
+path = 'contracts/ap-dispatcher.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.ap-trait]
+path = 'contracts/traits/ap-trait.clar'
+clarity_version = 2
+epoch = 2.5
+
+[contracts.dispatcher-registry]
+path = 'contracts/extensions/dispatcher-registry.clar'
+clarity_version = 2
+epoch = 2.5
+
 [contracts.dummy-caller-ext]
 path = 'contracts/extensions/dummy-caller-ext.clar'
 clarity_version = 2
 epoch = 2.5
 
-[contracts.wally-main]
-path = 'contracts/wally-main.clar'
+[contracts.scw-ap]
+path = 'contracts/extensions/scw-ap.clar'
 clarity_version = 2
 epoch = 2.5
 
@@ -25,6 +40,10 @@ path = 'contracts/extensions/scw-sip-010.clar'
 clarity_version = 2
 epoch = 2.5
 
+[contracts.wally-main]
+path = 'contracts/wally-main.clar'
+clarity_version = 2
+epoch = 2.5
 [repl.analysis]
 passes = ['check_checker']
 
