@@ -15,9 +15,21 @@
 ;;
 (define-constant CONTRACT (as-contract tx-sender))
 
-(define-constant ERR-UNAUTHORIZED (err u401))
-(define-constant ERR-BAD-ARG (err u400))
-(define-constant ERR-TOKEN-NOT-ALLOWED (err u402))
+(define-constant ERR-UNAUTHORIZED (err {
+    code: u401,
+    source: (as-contract tx-sender),
+    message: "Unauthorized"
+}))
+(define-constant ERR-BAD-ARG (err {
+    code: u400,
+    source: (as-contract tx-sender),
+    message: "Bad arguments"
+}))
+(define-constant ERR-TOKEN-NOT-ALLOWED (err {
+    code: u402,
+    source: (as-contract tx-sender),
+    message: "Token not whitelisted"
+}))
 
 ;; data vars
 ;;
@@ -33,7 +45,13 @@
         (asserts! (is-eq CONTRACT sender) ERR-BAD-ARG)
         (try! (is-owner-or-extension))
         (asserts! (is-token-enabled (contract-of token-id)) ERR-TOKEN-NOT-ALLOWED)
-        (as-contract (contract-call? token-id transfer amount tx-sender recipient memo))))
+        (match (as-contract (contract-call? token-id transfer amount tx-sender recipient memo)) 
+            ok-value (ok ok-value) 
+            err-value (err {
+                code: err-value,
+                source: (contract-of token-id),
+                message: "Transfer failed"
+            }))))
 
 (define-public (set-token-wl (token-id principal) (state bool)) 
     (begin 

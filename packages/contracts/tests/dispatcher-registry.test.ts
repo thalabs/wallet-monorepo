@@ -1,11 +1,11 @@
 import {
   principalCV,
-  uintCV,
   trueCV,
   contractPrincipalCV,
   falseCV,
 } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
+import { expectErrorByCode } from "./util";
 
 const accounts = simnet.getAccounts();
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- account exists
@@ -33,14 +33,15 @@ describe("dispatcher registry", () => {
   });
 
   it("should only allow the owner to add dispatchers", () => {
-    expect(
+    expectErrorByCode(
       simnet.callPublicFn(
         `${deployer}.dispatcher-registry`,
         "set-dispatcher",
         [principalCV(address1), trueCV()],
         address1,
       ).result,
-    ).toBeErr(uintCV(401));
+      401,
+    );
   });
 
   it("should indicate that a dispatcher is not set if it wasn't set before", () => {

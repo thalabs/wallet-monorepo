@@ -18,6 +18,7 @@ import {
   getStxBalance,
   getBlockTimeForUnixTime,
   TEST_ADDRESS,
+  expectErrorByCode,
 } from "./util";
 
 const accounts = simnet.getAccounts();
@@ -59,14 +60,15 @@ describe("Automatic payment", () => {
   //   );
   // });
   it("expects that only the owner or a whitelisted dispatcher can call this function", async () => {
-    expect(
+    expectErrorByCode(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
         "execute",
         [principalCV(address1)],
         address1,
       ).result,
-    ).toBeErr(uintCV(401));
+      401,
+    );
 
     expect(
       simnet.callPublicFn(
@@ -109,14 +111,15 @@ describe("Automatic payment", () => {
       ).result,
     ).toBeOk(trueCV());
 
-    expect(
+    expectErrorByCode(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
         "execute",
         [principalCV(address1)],
         address1,
       ).result,
-    ).toBeErr(uintCV(402));
+      402,
+    );
 
     const result = simnet.callReadOnlyFn(
       `${deployer}.scw-ap`,
@@ -170,14 +173,15 @@ describe("Automatic payment", () => {
       ),
     );
 
-    expect(
+    expectErrorByCode(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
         "execute",
         [principalCV(address1)],
         address1,
       ).result,
-    ).toBeErr(uintCV(408));
+      408,
+    );
   });
   it("ensures user can update the expiry of the AP", () => {
     const result = simnet.callReadOnlyFn(
@@ -196,33 +200,36 @@ describe("Automatic payment", () => {
         deployer,
       ).result,
     ).toBeOk(trueCV());
-    expect(
+    expectErrorByCode(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
         "execute",
         [principalCV(address1)],
         deployer,
       ).result,
-    ).toBeErr(uintCV(402));
+      402,
+    );
     simnet.mineEmptyBlocks(
       getBlockTimeForUnixTime(expiresAt - simnet.getBlockTime()),
     );
-    expect(
+    expectErrorByCode(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
         "execute",
         [principalCV(address1)],
         deployer,
       ).result,
-    ).toBeErr(uintCV(408));
-    expect(
+      408,
+    );
+    expectErrorByCode(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
         "update-expiry",
         [someCV(uintCV(newExpiresAt))],
         address1,
       ).result,
-    ).toBeErr(uintCV(401));
+      401,
+    );
     expect(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
@@ -248,14 +255,15 @@ describe("Automatic payment", () => {
     ).toBeOk(trueCV());
 
     simnet.mineEmptyBlocks(1000);
-    expect(
+    expectErrorByCode(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
         "execute",
         [principalCV(address1)],
         deployer,
       ).result,
-    ).toBeErr(uintCV(408));
+      408,
+    );
     expect(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
@@ -278,13 +286,14 @@ describe("Automatic payment", () => {
         deployer,
       ).result,
     ).toBeOk(trueCV());
-    expect(
+    expectErrorByCode(
       simnet.callPublicFn(
         `${deployer}.scw-ap`,
         "execute",
         [principalCV(address1)],
         deployer,
       ).result,
-    ).toBeErr(uintCV(402));
+      402,
+    );
   });
 });

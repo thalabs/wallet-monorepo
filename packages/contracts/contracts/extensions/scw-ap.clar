@@ -15,12 +15,22 @@
 ;;
 (define-constant DAY (to-uint (* 24 60 60)))
 (define-constant CADENCE DAY)
-(define-constant ERR-UNAUTHORIZED (err u401))
-(define-constant ERR-COOLDOWN (err u402))
-(define-constant ERR-ALREADY-EXISTS (err u409))
-(define-constant ERR-AP-EXPIRED (err u408))
-(define-constant ERR-MAX-EXCEEDED (err u429))
-(define-constant ERR-NOT-FOUND (err u404))
+(define-constant ERR-UNAUTHORIZED (err {
+    code: u401,
+    source: (as-contract tx-sender),
+    message: "Unauthorized"
+}))
+(define-constant ERR-COOLDOWN (err {
+    code: u402,
+    source: (as-contract tx-sender),
+    message: "Cooldown"
+}))
+(define-constant ERR-AP-EXPIRED (err {
+    code: u408,
+    source: (as-contract tx-sender),
+    message: "AP expired"
+}))
+
 
 (define-constant DEPLOYER tx-sender)
 ;; data vars

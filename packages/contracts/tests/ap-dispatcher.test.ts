@@ -2,10 +2,9 @@ import {
   contractPrincipalCV,
   stringAsciiCV,
   tupleCV,
-  uintCV,
 } from "@stacks/transactions";
 import { beforeEach, describe, expect, it } from "vitest";
-import { getStxBalance, setupTest } from "./util";
+import { expectErrorByCode, getStxBalance, setupTest } from "./util";
 import { CoreNodeEventType, projectFactory } from "@clarigen/core";
 import { filterEvents, txErr, txOk } from "@clarigen/test";
 
@@ -24,10 +23,11 @@ describe("automatic payment dispatcher", () => {
   beforeEach(setupTest);
 
   it("should not allow unauthorized users to dispatch", () => {
-    expect(
+    expectErrorByCode(
       txErr(apDispatcher.dispatch({ ap: `${deployer}.scw-ap` }), address1)
         .result,
-    ).toBeErr(uintCV(401));
+      401,
+    );
   });
 
   it("should allow only the owner to dispatch an automatic payment", () => {

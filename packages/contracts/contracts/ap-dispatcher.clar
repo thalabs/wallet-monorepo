@@ -13,8 +13,17 @@
 ;; constants
 ;;
 (define-constant OWNER tx-sender)
-(define-constant ERR-UNAUTHORIZED (err u401))
-(define-constant ERR-FAILED (err u400))
+(define-constant ERR-UNAUTHORIZED (err {
+    code: u401,
+    source: (as-contract tx-sender),
+    message: "Unauthorized"
+}))
+
+(define-constant ERR-FAILED (err {
+    code: u400,
+    source: (as-contract tx-sender),
+    message: "Dispatch failed"
+}))
 ;; data vars
 ;;
 
@@ -53,10 +62,14 @@
         }})
         (ok true)))
 
-(define-private (handle-failure (ap <ap-trait>) (err-code uint)) 
+(define-private (handle-failure (ap <ap-trait>) (error {
+        code: uint,
+        source: principal,
+        message: (string-ascii 256)
+    })) 
     (begin 
         (print {event: "dispatch-failed", payload: {
             ap: (contract-of ap),
-            result: err-code
+            result: error
         }})
     ERR-FAILED))

@@ -12,7 +12,11 @@
 
 ;; constants
 ;;
-(define-constant ERR-UNAUTHORIZED (err u401))
+(define-constant ERR-UNAUTHORIZED (err {
+    code: u401,
+    source: (as-contract tx-sender),
+    message: "Unauthorized"
+}))
 
 ;; data vars
 ;;

@@ -4,12 +4,12 @@ import {
   contractPrincipalCV,
   falseCV,
   trueCV,
-  uintCV,
 } from "@stacks/transactions";
 
 import {
   chargeWallet,
   contract,
+  expectErrorByCode,
   getStxBalance,
   setExtension,
   setTokenWL,
@@ -38,9 +38,7 @@ describe("sip-010 extension", () => {
   it("ensures that only owner can change a token's whitelist status", () => {
     expect(chargeWallet({ amount: 1000_000_000 })).toBeOk(trueCV());
     expect(setExtension("scw-sip-010", true, deployer)).toBeOk(trueCV());
-    expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, address1)).toBeErr(
-      uintCV(401),
-    );
+    expectErrorByCode(setTokenWL(`${TEST_ADDRESS}.wstx`, true, address1), 401);
 
     expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer)).toBeOk(trueCV());
 
@@ -55,16 +53,18 @@ describe("sip-010 extension", () => {
 
   it("ensures extension can transfer only be used when it's enabled by owner and token is wl'ed", () => {
     expect(chargeWallet({ amount: 1000_000_000 })).toBeOk(trueCV());
-    expect(
+    expectErrorByCode(
       transfer("wstx", 10, contract("scw-sip-010"), address1, "test", deployer)
         .result,
-    ).toBeErr(uintCV(401));
+      401,
+    );
     expect(setExtension("scw-sip-010", true, deployer)).toBeOk(trueCV());
 
-    expect(
+    expectErrorByCode(
       transfer("wstx", 10, contract("scw-sip-010"), address1, "test", deployer)
         .result,
-    ).toBeErr(uintCV(402));
+      402,
+    );
 
     expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer)).toBeOk(trueCV());
     const successFulTransfer = transfer(
@@ -85,36 +85,40 @@ describe("sip-010 extension", () => {
     expect(setTokenWL(`${TEST_ADDRESS}.wstx`, false, deployer)).toBeOk(
       trueCV(),
     );
-    expect(
+    expectErrorByCode(
       transfer("wstx", 10, contract("scw-sip-010"), address1, "test", deployer)
         .result,
-    ).toBeErr(uintCV(402));
+      402,
+    );
   });
 
   it("ensures the sender in transfer is always the contract address", () => {
     setExtension("scw-sip-010", true, deployer);
 
-    expect(
+    expectErrorByCode(
       transfer("wstx", 10, address1, address1, "test", deployer).result,
-    ).toBeErr(uintCV(400));
+      400,
+    );
   });
   it("ensures extension can be called only by owner and other extensions", () => {
     setExtension("scw-sip-010", true, deployer);
     expect(setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer)).toBeOk(trueCV());
     expect(chargeWallet({ amount: 1000_000_000 })).toBeOk(trueCV());
-    expect(
+    expectErrorByCode(
       transfer("wstx", 10, contract("scw-sip-010"), address1, "test", address1)
         .result,
-    ).toBeErr(uintCV(401));
+      401,
+    );
 
-    expect(
+    expectErrorByCode(
       simnet.callPublicFn(
         contract("dummy-caller-ext"),
         "test-sip-010",
         [],
         address1,
       ).result,
-    ).toBeErr(uintCV(401));
+      401,
+    );
 
     setExtension("dummy-caller-ext", true, deployer);
     expect(

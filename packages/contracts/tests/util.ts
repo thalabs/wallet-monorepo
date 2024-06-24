@@ -9,7 +9,12 @@ import {
   someCV,
   uintCV,
   ClarityValue,
+  ResponseErrorCV,
+  TupleCV,
+  StringAsciiCV,
+  PrincipalCV,
 } from "@stacks/transactions";
+import { expect } from "vitest";
 
 export const TEST_ADDRESS = "SP32AEEF6WW5Y0NMJ1S8SBSZDAY8R5J32NBZFPKKZ";
 
@@ -130,4 +135,20 @@ export function setupTest() {
   setExtension("scw-sip-010", true, deployer);
   setExtension("scw-ap", true, deployer);
   setTokenWL(`${TEST_ADDRESS}.wstx`, true, deployer);
+}
+export function expectErrorByCode(
+  contractCallResult: ClarityValue,
+  code: number,
+) {
+  expect(
+    (
+      contractCallResult as ResponseErrorCV<
+        TupleCV<{
+          code: UIntCV;
+          source: PrincipalCV;
+          message: StringAsciiCV;
+        }>
+      >
+    ).value.data.code,
+  ).toBeUint(code);
 }

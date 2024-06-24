@@ -1,5 +1,9 @@
 (define-trait ap-trait (
-    (execute (principal) (response bool uint))
+    (execute (principal) (response bool {
+        code: uint,
+        source: principal,
+        message: (string-ascii 256)
+    }))
 
     (get-ap-meta () 
         (response {
